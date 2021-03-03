@@ -52,13 +52,13 @@ export default {
                             'Access-Control-Allow-Origin': '*',
                             'Content-type': 'application/json',
                             'Authorization': `Bearer ${localStorage.getItem('jwt')}`
-                        }
+                        },timeout : 4000
                 }
                 ).then(res => {
                     console.log(res)
                     resolve(true)
                 }).catch(err => {
-                    console.log(err.response.status)
+                    console.log(err)
                     context.commit('destroyToken')
                     reject(false)
                 })

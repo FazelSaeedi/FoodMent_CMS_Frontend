@@ -73,6 +73,8 @@
 
       <v-main style=" background-color: #e0dcdc;
             ">
+        <AlertComponent v-for="(alert , key) in this.getAlerts" v-bind:key="key" :message="alert.message" :type="alert.type">
+        </AlertComponent>
         <v-container >
           <router-view></router-view>
         </v-container>
@@ -88,16 +90,24 @@
 <script>
 import FooterComponent from "@/components/CMSComponent/FooterComponent";
 import {mapActions} from "vuex/dist/vuex.mjs";
-
+import AlertComponent from "@/components/CMSComponent/AlertComponent";
+import {mapGetters} from "vuex";
 
 export default {
   name: "CMSFraim",
   data: () => ({
     drawer: false ,
+    alerts : [],
     items : [
       { title : 'ماهیت'  , icon : 'mdi-animation'  , link : {name : 'type'}},
     ]
   }),
+  computed: {
+
+    ...mapGetters({
+      getAlerts : 'GlobalModul/getAlerts'
+    })
+  },
   created() {
        this.checkUserLogin().then().catch(error => {
          if (error === false)
@@ -106,19 +116,23 @@ export default {
   },
 
   components: {
+    AlertComponent,
     FooterComponent
   },
   methods : {
 
     ...mapActions({
       destroyToken : 'UserModul/destroyToken',
-      checkUserLogin : 'UserModul/checkUserLogin'
+      checkUserLogin : 'UserModul/checkUserLogin',
+      setAlert : 'GlobalModul/setAlert'
     }),
 
 
     logout () {
-      this.destroyToken()
-          .then(this.$router.push({name : 'Authenticate'}))
+      //this.destroyToken()
+      //    .then(this.$router.push({name : 'Authenticate'}))
+
+      this.setAlert({message : 'ss' , type : 'warning'})
     },
 
     navClick () {
