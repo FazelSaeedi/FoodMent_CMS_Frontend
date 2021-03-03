@@ -72,9 +72,8 @@
 
 <script>
 import NavBarAuthentication from "@/components/Authentication/NavBarAuthentication";
-import {mapGetters} from 'vuex'
 import {mapActions} from "vuex/dist/vuex.mjs";
-
+import {mapGetters} from 'vuex'
 
 export default {
 name: "Authenticate",
@@ -82,8 +81,8 @@ name: "Authenticate",
   computed: {
 
     ...mapGetters({
-      jwt : 'userModul/jwt'
-    }) ,
+      JWT: 'UserModul/jwt',
+    })
   },
   data () {
     return {
@@ -94,9 +93,9 @@ name: "Authenticate",
     }
   },
   beforeCreate(){
- /*   if (!this.jwt){
-      this.$router.push({name : 'Panel'})
-    }*/
+    if(this.$store.state.UserModul.jwt){
+      this.$router.push({name : 'type'})
+    }
   },
   methods :{
     ...mapActions({
