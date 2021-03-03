@@ -103,7 +103,7 @@ export default {
 
     logout () {
       this.destroyToken()
-          .then(this.$router.push({name : 'LoginFraim'}))
+          .then(this.$router.push({name : 'Authenticate'}))
     },
 
     navClick () {

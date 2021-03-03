@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Authenticate from "@/views/Fraims/AuthenticateFraim";
 import CMSFraim from "@/views/Fraims/CMSFraim";
+import TypeFraim from "@/views/Fraims/CMSFraims/TypeFraim";
+
 
 
 Vue.use(VueRouter)
@@ -21,6 +23,15 @@ const routes = [
         path: '/Panel',
         name: 'Panel',
         component: CMSFraim,
+        redirect: '/Panel/type',
+        children : [
+            {
+                path: 'type',
+                name: 'type',
+                component: TypeFraim
+            }
+        ]
+
     },
 ]
 
