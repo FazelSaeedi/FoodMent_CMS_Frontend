@@ -8,8 +8,9 @@ export default {
             return state.jwt
         },
     },
-    mutations: {
-    },
     actions: {
+
     },
+    mutations: {
+    }
 }
