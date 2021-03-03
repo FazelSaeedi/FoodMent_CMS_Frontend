@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Authenticate from "@/views/Fraims/AuthenticateFraim";
+import CMSFraim from "@/views/Fraims/CMSFraim";
 
 
 Vue.use(VueRouter)
@@ -15,6 +16,11 @@ const routes = [
       path: '/auth',
       name: 'AuthFraim',
       component: Authenticate,
+    },
+    {
+        path: '/Panel',
+        name: 'Panel',
+        component: CMSFraim,
     },
 ]
 
