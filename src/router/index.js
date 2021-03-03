@@ -16,7 +16,7 @@ const routes = [
     },
     {
       path: '/auth',
-      name: 'AuthFraim',
+      name: 'Authenticate',
       component: Authenticate,
     },
     {

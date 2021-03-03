@@ -94,13 +94,13 @@ name: "Authenticate",
     }
   },
   beforeCreate(){
-    if (!this.jwt){
+ /*   if (!this.jwt){
       this.$router.push({name : 'Panel'})
-    }
+    }*/
   },
   methods :{
     ...mapActions({
-      retriveToken: 'userModul/retriveToken',
+      retriveToken: 'UserModul/retriveToken',
     }),
 
     login() {

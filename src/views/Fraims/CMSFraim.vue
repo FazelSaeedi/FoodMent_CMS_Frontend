@@ -87,6 +87,8 @@
 
 <script>
 import FooterComponent from "@/components/CMSComponent/FooterComponent";
+import {mapActions} from "vuex/dist/vuex.mjs";
+
 
 export default {
   name: "CMSFraim",
@@ -102,9 +104,14 @@ export default {
   },
   methods : {
 
+    ...mapActions({
+      destroyToken : 'UserModul/destroyToken'
+    }),
+
+
     logout () {
       this.destroyToken()
-          .then(this.$router.push({name : 'LoginFraim'}))
+          .then(this.$router.push({name : 'Authenticate'}))
     },
 
     navClick () {

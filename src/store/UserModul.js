@@ -11,6 +11,7 @@ export default {
         },
     },
     actions: {
+
         retriveToken :  (context , credentials) => {
 
             return new Promise((resolve , reject ) =>{
@@ -37,11 +38,20 @@ export default {
             })
 
         },
+
+        destroyToken  : (context) => {
+            localStorage.removeItem('jwt' )
+            context.commit('destroyToken')
+        },
     },
     mutations: {
 
         retriveToken  : (state , token ) => {
             state.jwt = token
+        },
+
+        destroyToken  : (state) => {
+            state.jwt = null
         },
 
     }
