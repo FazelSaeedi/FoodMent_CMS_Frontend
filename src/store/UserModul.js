@@ -58,9 +58,14 @@ export default {
                     console.log(res)
                     resolve(true)
                 }).catch(err => {
-                    console.log(err)
-                    context.commit('destroyToken')
-                    reject(false)
+                    console.log('-----------')
+                    if (err == 'Error: Network Error'){
+                        reject(err)
+                    }else{
+                        context.commit('destroyToken')
+                        reject(false)
+                    }
+
                 })
             })
         }

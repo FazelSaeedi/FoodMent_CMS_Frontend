@@ -23,6 +23,10 @@ export default {
 
         setAlert : (context ,  { message , type }) =>{
             context.commit('setAlert' , { message , type } )
+        },
+
+        clearAlerts : (context) =>{
+            context.commit('clearAlerts')
         }
     },
     mutations: {
@@ -32,6 +36,10 @@ export default {
 
         setAlert : (state , { message , type }) =>{
             state.alerts.push({ message , type })
+        },
+
+        clearAlerts : (state) =>{
+            state.alerts = []
         }
     }
 }

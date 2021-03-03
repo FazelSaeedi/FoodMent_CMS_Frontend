@@ -109,9 +109,17 @@ export default {
     })
   },
   created() {
-       this.checkUserLogin().then().catch(error => {
-         if (error === false)
+        this.clearAlerts()
+        this.checkUserLogin().then().catch(error => {
+         if (error == 'Error: Network Error'){
+           alert(error)
+           this.setAlert({message : 'You are disconnected Please Check Your Network' , type : 'error'})
+         }else{
            this.$router.push({name : 'Authenticate'})
+         }
+
+          console.log(error)
+
        })
   },
 
@@ -124,15 +132,15 @@ export default {
     ...mapActions({
       destroyToken : 'UserModul/destroyToken',
       checkUserLogin : 'UserModul/checkUserLogin',
-      setAlert : 'GlobalModul/setAlert'
+      setAlert : 'GlobalModul/setAlert',
+      clearAlerts : 'GlobalModul/clearAlerts'
     }),
 
 
     logout () {
-      //this.destroyToken()
-      //    .then(this.$router.push({name : 'Authenticate'}))
+      this.destroyToken()
+          .then(this.$router.push({name : 'Authenticate'}))
 
-      this.setAlert({message : 'ss' , type : 'warning'})
     },
 
     navClick () {
