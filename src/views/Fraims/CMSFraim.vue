@@ -98,6 +98,12 @@ export default {
       { title : 'ماهیت'  , icon : 'mdi-animation'  , link : {name : 'type'}},
     ]
   }),
+  created() {
+       this.checkUserLogin().then().catch(error => {
+         if (error === false)
+           this.$router.push({name : 'Authenticate'})
+       })
+  },
 
   components: {
     FooterComponent
@@ -105,7 +111,8 @@ export default {
   methods : {
 
     ...mapActions({
-      destroyToken : 'UserModul/destroyToken'
+      destroyToken : 'UserModul/destroyToken',
+      checkUserLogin : 'UserModul/checkUserLogin'
     }),
 
 

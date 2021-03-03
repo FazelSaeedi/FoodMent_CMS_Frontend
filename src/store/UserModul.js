@@ -43,6 +43,28 @@ export default {
             localStorage.removeItem('jwt' )
             context.commit('destroyToken')
         },
+
+        checkUserLogin : (context) => {
+
+            return new Promise((resolve , reject ) =>{
+                axios.post('http://kalament.ir/api/v1/user/getuserinfo' ,{},{
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Content-type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+                        }
+                }
+                ).then(res => {
+                    console.log(res)
+                    resolve(true)
+                }).catch(err => {
+                    console.log(err.response.status)
+                    context.commit('destroyToken')
+                    reject(false)
+                })
+            })
+        }
+
     },
     mutations: {
 
@@ -53,6 +75,8 @@ export default {
         destroyToken  : (state) => {
             state.jwt = null
         },
+
+
 
     }
 }
