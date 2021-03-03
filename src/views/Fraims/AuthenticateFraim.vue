@@ -13,74 +13,10 @@
           >
 
             <v-card ref="form" class="pr-2 pl-2 " style="opacity: 0.95; background-color: #ffffff ; border-radius: 25px;" elevation="15">
-
-
-              <v-row no-gutters class="mb-3 mt-4 " style="border-bottom: 1px solid black ;  cursor: pointer" >
-
-
-
-                <v-col class="text-center mt-6 " @click="switchComponent=true"
-                       cols="6"
-                >
-                  <v-card-text class="hover pl-6" style="font-size: 23px ; height: 60px ; border-radius: 50px" >ورود</v-card-text>
-                </v-col>
+              <NavBarAuthentication :switchComponent="switchComponent"></NavBarAuthentication>
 
 
 
-
-                <v-col class="text-center mt-6 mb-7"
-                       cols="6"
-                >
-                  <v-card-text class="hover"  style="font-size: 23px ; height: 60px ;  border-radius: 50px">ثبت نام</v-card-text>
-                </v-col>
-              </v-row>
-
-
-
-              <v-card-text  class="pr-15 pl-15" >
-
-              <div v-if="switchComponent">
-                <v-card-text class="pb-0 text-center pt-5   "  style="font-size: 20px">تلفن</v-card-text>
-                <v-text-field
-                    style="font-size: 25px"
-                    class="centered-input  pt-6 "
-                    ref="name"
-                    placeholder="09xx - xxx - xxx"
-                    align="center"
-                    clearable
-                >
-                </v-text-field>
-                <v-row>
-                  <v-card-text class="pb-0 text-center pt-12 " style="font-size: 20px">رمز عبور</v-card-text>
-
-                  <v-text-field
-                      style="font-size: 25px"
-                      class="centered-input  pt-6 "
-                      ref="name"
-                      align="center"
-                      :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                      :type="show ? 'text' : 'password'"
-                      hint="حد اقل ۸ کاراکتر"
-                      counter
-                      clearable
-                      @click:append="show = !show"
-                  >
-
-                  </v-text-field>
-
-                </v-row>
-                <v-card-actions class="justify-center pa-6" >
-                  <v-btn color="yellow"
-                         style="font-size: 20px"
-                         width="180"
-                         height="40"
-                  >
-                    ورود
-                  </v-btn>
-                </v-card-actions>
-              </div>
-
-              </v-card-text>
             </v-card>
           </v-col>
         </v-row>
@@ -91,12 +27,14 @@
 </template>
 
 <script>
+import NavBarAuthentication from "@/components/Authentication/NavBarAuthentication";
 export default {
 name: "Authenticate",
+  components: {NavBarAuthentication},
   data () {
     return {
       show: false,
-      switchComponent : false
+      switchComponent : true
     }
   }
 }
@@ -134,12 +72,6 @@ name: "Authenticate",
 }
 
 
-.hover:hover {
-  background-color: #888787
-}
 
-.v-messages__wrapper{
-  text-align: center;
-}
 
 </style>
