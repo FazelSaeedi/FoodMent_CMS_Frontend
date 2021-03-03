@@ -2,7 +2,9 @@
 <div>
   <v-app id="app">
     <v-main>
+
       <v-container fill-height fluid >
+
         <v-row justify="center" style="padding-bottom: 150px !important;">
           <v-col
               cols="12"
@@ -13,8 +15,7 @@
 
             <v-card ref="form" class="pr-2 pl-2 " style="opacity: 0.95; background-color: #ffffff ; border-radius: 25px;" elevation="15">
               <NavBarAuthentication :switchComponent="switchComponent"></NavBarAuthentication>
-
-
+              <SnackbarComponent v-for="(snackbar , key) in this.getSnackbars" v-bind:key="key" :message="snackbar.message" :color="snackbar.color"></SnackbarComponent>
               <v-card-text  class="pr-15 pl-15" >
                 <div v-if="switchComponent">
                   <v-card-text class="pb-0 text-center pt-5   "  style="font-size: 20px">تلفن</v-card-text>
@@ -74,14 +75,20 @@
 import NavBarAuthentication from "@/components/Authentication/NavBarAuthentication";
 import {mapActions} from "vuex/dist/vuex.mjs";
 import {mapGetters} from 'vuex'
+import SnackbarComponent from "@/components/GlobalComponent/SnackbarComponent";
 
 export default {
 name: "Authenticate",
-  components: {NavBarAuthentication},
+  components: {
+  NavBarAuthentication ,
+  SnackbarComponent
+  },
   computed: {
 
     ...mapGetters({
-      JWT: 'UserModul/jwt',overlay :'GlobalModul/overlay'
+      JWT: 'UserModul/jwt',
+      overlay :'GlobalModul/overlay',
+      getSnackbars : 'GlobalModul/getSnackbar'
     })
   },
   data () {
@@ -100,7 +107,9 @@ name: "Authenticate",
   methods :{
     ...mapActions({
       retriveToken: 'UserModul/retriveToken',
-      swichOverlay : 'GlobalModul/swichOverlay'
+      swichOverlay : 'GlobalModul/swichOverlay',
+      setSnackbar : 'GlobalModul/setSnackbar',
+      clearSnackbar : 'GlobalModul/clearSnackbar'
     }),
 
     login() {
@@ -110,9 +119,13 @@ name: "Authenticate",
             console.log(response)
             this.swichOverlay()
             this.$router.push({name : 'type'})
-          }).catch(function (){
-          this.swichOverlay()
-          alert()
+            this.clearSnackbar()
+          }).catch( error => {
+            this.swichOverlay()
+            if (error == 'Error: Network Error'){
+                this.setSnackbar({message : 'Your Connection is fail' , color : 'error'})
+            }
+
       })
 
 

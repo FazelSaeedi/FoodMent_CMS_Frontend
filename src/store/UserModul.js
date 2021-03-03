@@ -22,7 +22,7 @@ export default {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-type': 'application/json',
-                    }
+                    },timeout : 4000
 
                 }).then(res => {
                     const JWT = res.data.data.token
@@ -32,8 +32,12 @@ export default {
                     context.commit('retriveToken' , JWT)
                     resolve(res)
                 }).catch(err => {
-                    console.log(err)
-                    reject(err)
+                    if (err == 'Error: Network Error'){
+                        reject(err)
+                    }else{
+                        context.commit('destroyToken')
+                        reject(false)
+                    }
                 })
             })
 

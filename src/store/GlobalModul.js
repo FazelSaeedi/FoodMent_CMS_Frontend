@@ -39,6 +39,11 @@ export default {
         setSnackbar : (context ,  { message , color }) =>{
             context.commit('setSnackbar' , { message , color } )
         },
+
+        clearSnackbar : (context) =>{
+            context.commit('clearSnackbar')
+        },
+
     },
     mutations: {
         swichOverlay  : (state) => {
@@ -55,6 +60,10 @@ export default {
 
         setSnackbar : (state , { message , color }) =>{
             state.snackbars.push({ message , color })
+        },
+
+        clearSnackbar : (state) =>{
+            state.snackbars = []
         },
     }
 }
