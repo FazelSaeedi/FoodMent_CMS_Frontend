@@ -92,6 +92,11 @@ name: "Authenticate",
       password : '',
     }
   },
+  beforeCreate(){
+    if (!this.jwt){
+      this.$router.push({name : 'Panel'})
+    }
+  },
   methods :{
     login() {
         alert('login')
