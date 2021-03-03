@@ -93,6 +93,7 @@ export default {
   data: () => ({
     drawer: false ,
     items : [
+      { title : 'ماهیت'  , icon : 'mdi-animation'  , link : {name : 'type'}},
     ]
   }),
 
@@ -103,7 +104,7 @@ export default {
 
     logout () {
       this.destroyToken()
-          .then(this.$router.push({name : 'Authenticate'}))
+          .then(this.$router.push({name : 'LoginFraim'}))
     },
 
     navClick () {
