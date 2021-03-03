@@ -16,6 +16,51 @@
               <NavBarAuthentication :switchComponent="switchComponent"></NavBarAuthentication>
 
 
+              <v-card-text  class="pr-15 pl-15" >
+                <div v-if="switchComponent">
+                  <v-card-text class="pb-0 text-center pt-5   "  style="font-size: 20px">تلفن</v-card-text>
+                  <v-text-field
+                      style="font-size: 25px"
+                      class="centered-input  pt-6 "
+                      ref="name"
+                      placeholder="09xx - xxx - xxx"
+                      align="center"
+                      clearable
+                      v-model="phone"
+                  >
+                  </v-text-field>
+                  <v-row>
+                    <v-card-text class="pb-0 text-center pt-12 " style="font-size: 20px">رمز عبور</v-card-text>
+
+                    <v-text-field
+                        style="font-size: 25px"
+                        class="centered-input  pt-6 "
+                        ref="name"
+                        align="center"
+                        :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="show ? 'text' : 'password'"
+                        hint="حد اقل ۸ کاراکتر"
+                        counter
+                        clearable
+                        @click:append="show = !show"
+                        v-model="password"
+                    >
+
+                    </v-text-field>
+
+                  </v-row>
+                  <v-card-actions class="justify-center pa-6" >
+                    <v-btn color="yellow"
+                           style="font-size: 20px"
+                           width="180"
+                           height="40"
+                           @click="login()"
+                    >
+                      ورود
+                    </v-btn>
+                  </v-card-actions>
+                </div>
+              </v-card-text>
 
             </v-card>
           </v-col>
@@ -34,8 +79,15 @@ name: "Authenticate",
   data () {
     return {
       show: false,
-      switchComponent : true
+      switchComponent : true,
+      phone : '' ,
+      password : '',
     }
+  },
+  methods :{
+    login() {
+        alert('login')
+    },
   }
 }
 </script>
