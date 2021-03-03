@@ -81,7 +81,7 @@ name: "Authenticate",
   computed: {
 
     ...mapGetters({
-      JWT: 'UserModul/jwt',
+      JWT: 'UserModul/jwt',overlay :'GlobalModul/overlay'
     })
   },
   data () {
@@ -100,15 +100,25 @@ name: "Authenticate",
   methods :{
     ...mapActions({
       retriveToken: 'UserModul/retriveToken',
+      swichOverlay : 'GlobalModul/swichOverlay'
     }),
 
     login() {
+      this.swichOverlay()
       this.retriveToken( {phone: this.phone, password: this.password})
           .then(response => {
             console.log(response)
-            this.overlay = false
+            this.swichOverlay()
             this.$router.push({name : 'type'})
-          })
+          }).catch(function (){
+          this.swichOverlay()
+          alert()
+      })
+
+
+
+
+
 
     },
   }
