@@ -73,6 +73,7 @@
 <script>
 import NavBarAuthentication from "@/components/Authentication/NavBarAuthentication";
 import {mapGetters} from 'vuex'
+import {mapActions} from "vuex/dist/vuex.mjs";
 
 
 export default {
@@ -98,9 +99,18 @@ name: "Authenticate",
     }
   },
   methods :{
+    ...mapActions({
+      retriveToken: 'userModul/retriveToken',
+    }),
+
     login() {
-        alert('login')
-        alert(this.jwt)
+      this.retriveToken( {phone: this.phone, password: this.password})
+          .then(response => {
+            console.log(response)
+            this.overlay = false
+            this.$router.push({name : 'type'})
+          })
+
     },
   }
 }
