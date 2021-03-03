@@ -76,6 +76,7 @@
         <AlertComponent v-for="(alert , key) in this.getAlerts" v-bind:key="key" :message="alert.message" :type="alert.type">
         </AlertComponent>
         <v-container >
+          <SnackbarComponent v-for="(snackbar , key) in this.getSnackbars" v-bind:key="key" :message="snackbar.message" :color="snackbar.color"></SnackbarComponent>
           <router-view></router-view>
         </v-container>
       </v-main>
@@ -92,6 +93,7 @@ import FooterComponent from "@/components/CMSComponent/FooterComponent";
 import {mapActions} from "vuex/dist/vuex.mjs";
 import AlertComponent from "@/components/CMSComponent/AlertComponent";
 import {mapGetters} from "vuex";
+import SnackbarComponent from "@/components/GlobalComponent/SnackbarComponent";
 
 export default {
   name: "CMSFraim",
@@ -105,7 +107,8 @@ export default {
   computed: {
 
     ...mapGetters({
-      getAlerts : 'GlobalModul/getAlerts'
+      getAlerts : 'GlobalModul/getAlerts',
+      getSnackbars : 'GlobalModul/getSnackbar'
     })
   },
   created() {
@@ -124,6 +127,7 @@ export default {
   },
 
   components: {
+    SnackbarComponent,
     AlertComponent,
     FooterComponent
   },
@@ -133,14 +137,14 @@ export default {
       destroyToken : 'UserModul/destroyToken',
       checkUserLogin : 'UserModul/checkUserLogin',
       setAlert : 'GlobalModul/setAlert',
-      clearAlerts : 'GlobalModul/clearAlerts'
+      clearAlerts : 'GlobalModul/clearAlerts',
+      setSnackbar : 'GlobalModul/setSnackbar'
     }),
 
 
     logout () {
       this.destroyToken()
           .then(this.$router.push({name : 'Authenticate'}))
-
     },
 
     navClick () {

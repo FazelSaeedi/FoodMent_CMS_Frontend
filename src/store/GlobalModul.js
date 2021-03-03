@@ -5,6 +5,9 @@ export default {
         overlay   : false ,
         alerts : [
 
+        ],
+
+        snackbars : [
         ]
     },
     getters : {
@@ -14,6 +17,10 @@ export default {
 
         getAlerts : (state) => {
             return state.alerts
+        },
+
+        getSnackbar : (state) => {
+            return state.snackbars
         }
     },
     actions: {
@@ -27,7 +34,11 @@ export default {
 
         clearAlerts : (context) =>{
             context.commit('clearAlerts')
-        }
+        },
+
+        setSnackbar : (context ,  { message , color }) =>{
+            context.commit('setSnackbar' , { message , color } )
+        },
     },
     mutations: {
         swichOverlay  : (state) => {
@@ -40,6 +51,10 @@ export default {
 
         clearAlerts : (state) =>{
             state.alerts = []
-        }
+        },
+
+        setSnackbar : (state , { message , color }) =>{
+            state.snackbars.push({ message , color })
+        },
     }
 }
