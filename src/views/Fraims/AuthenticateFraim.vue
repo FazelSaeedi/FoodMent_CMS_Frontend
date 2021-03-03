@@ -7,9 +7,8 @@
           <v-col
               cols="12"
               sm="7"
-              md="6"
-              lg="3"
-
+              md="5"
+              lg="4"
           >
 
             <v-card ref="form" class="pr-2 pl-2 " style="opacity: 0.95; background-color: #ffffff ; border-radius: 25px;" elevation="15">
@@ -73,9 +72,18 @@
 
 <script>
 import NavBarAuthentication from "@/components/Authentication/NavBarAuthentication";
+import {mapGetters} from 'vuex'
+
+
 export default {
 name: "Authenticate",
   components: {NavBarAuthentication},
+  computed: {
+
+    ...mapGetters({
+      jwt : 'userModul/jwt'
+    }) ,
+  },
   data () {
     return {
       show: false,
@@ -87,6 +95,7 @@ name: "Authenticate",
   methods :{
     login() {
         alert('login')
+        alert(this.jwt)
     },
   }
 }
