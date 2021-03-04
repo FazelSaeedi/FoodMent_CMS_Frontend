@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import UserModul from './UserModul.js'
 import GlobalModul from "@/store/GlobalModul";
 import TypeModul from "@/store/TypeModul";
+import MainGroupModul from "@/store/MainGroupModul";
 Vue.use(Vuex)
 
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
   modules: {
     UserModul ,
     GlobalModul,
-    TypeModul
+    TypeModul,
+    MainGroupModul
   }
 })

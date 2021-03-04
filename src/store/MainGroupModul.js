@@ -19,7 +19,7 @@ export default {
         retrivemainGroups : (context ) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.get('http://kalament.ir/api/v1/category/getmainGroupstable/1000' ,{
+                axios.get('http://kalament.ir/api/v1/category/getmaingrouptable/1000' ,{
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-type': 'application/json',
@@ -40,7 +40,7 @@ export default {
 
         deletemainGroup: ( context , mainGroup ) => {
             return  new Promise((resolve , reject ) =>{
-                axios.post('https://www.kalament.ir/api/v1/category/deletemainGroup' ,{
+                axios.post('https://www.kalament.ir/api/v1/category/deletemaingroup' ,{
                     id    :   mainGroup.id ,
                 },{
                     headers: {
@@ -62,7 +62,7 @@ export default {
         editmainGroup : (context , mainGroup ) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.post('https://www.kalament.ir/api/v1/category/editmainGroup' ,{
+                axios.post('https://www.kalament.ir/api/v1/category/editmaingroup' ,{
                     id    :   mainGroup.id ,
                     name  :   mainGroup.name,
                     code  :   mainGroup.code
@@ -88,7 +88,7 @@ export default {
         addmainGroup : (context , mainGroup) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.post('https://www.kalament.ir/api/v1/category/addmainGroup' ,{
+                axios.post('https://www.kalament.ir/api/v1/category/addmaingroup' ,{
                     name  :   mainGroup.name,
                     code  :   mainGroup.code
                 },{
