@@ -4,7 +4,7 @@ import Authenticate from "@/views/Fraims/AuthenticateFraim";
 import CMSFraim from "@/views/Fraims/CMSFraim";
 import TypeFraim from "@/views/Fraims/CMSFraims/TypeFraim";
 import MainGroupFraim from "@/views/Fraims/CMSFraims/MainGroupFraim";
-
+import SubGroupFraim from "@/views/Fraims/CMSFraims/SubGroupFraim";
 
 Vue.use(VueRouter)
 
@@ -34,7 +34,13 @@ const routes = [
                 path: 'mainGroup',
                 name: 'MainGroupFraim',
                 component: MainGroupFraim
+            },
+            {
+                path: 'subGroup',
+                name: 'SubGroupFraim',
+                component: SubGroupFraim
             }
+
         ]
 
     },

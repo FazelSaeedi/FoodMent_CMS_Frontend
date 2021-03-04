@@ -103,6 +103,7 @@ export default {
     items : [
       { title : 'ماهیت'  , icon : 'mdi-animation'  , link : {name : 'type'}},
       { title : 'گروه اصلی'  , icon : 'mdi-animation'  , link : {name : 'MainGroupFraim'}},
+      { title : 'گروه فرعی'  , icon : 'mdi-animation'  , link : {name : 'SubGroupFraim'}},
     ]
   }),
   computed: {
