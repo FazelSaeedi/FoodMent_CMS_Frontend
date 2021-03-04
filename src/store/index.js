@@ -5,6 +5,7 @@ import GlobalModul from "@/store/GlobalModul";
 import TypeModul from "@/store/TypeModul";
 import MainGroupModul from "@/store/MainGroupModul";
 import SubGroupModul from "@/store/SubGroupModul";
+import ProductModul from "@/store/ProductModul";
 Vue.use(Vuex)
 
 
@@ -23,5 +24,6 @@ export default new Vuex.Store({
     TypeModul,
     MainGroupModul,
     SubGroupModul,
+    ProductModul,
   }
 })

@@ -83,7 +83,7 @@
 
                         >
                           <v-text-field
-                              v-model="editedItem.code"
+                              v-model="editedItem.productcode"
                               label="کد"
                               :reverse="true"
                           ></v-text-field>
@@ -95,7 +95,7 @@
                             md="6"
                         >
                           <v-text-field
-                              v-model="editedItem.name"
+                              v-model="editedItem.productname"
                               label="نام"
                               :reverse="true"
                           ></v-text-field>
@@ -297,7 +297,9 @@
 
 
                       </v-row>
+
                     </v-container>
+
                   </v-card-text>
 
                   <v-card-actions>
@@ -350,9 +352,9 @@
 
             </v-toolbar>
           </template>
-          <template #item.type="{item}">{{item.type.name}}</template>
-          <template #item.maingroup="{item}">{{item.maingroup.name}}</template>
-          <template #item.subgroup="{item}">{{item.subgroup.name}}</template>
+<!--          <template #item.type="{item}">{{item.typename}}</template>
+          <template #item.maingroup="{item}">{{item.maingroupname}}</template>
+          <template #item.subgroup="{item}">{{item.subgroupname}}</template>-->
           <template v-slot:item.actions="{ item }">
             <v-icon
                 small
@@ -395,7 +397,6 @@
 
       </v-sheet>
 
-      {{this.editedItem.maingroup}}
 
     </v-col>
   </div>
@@ -410,7 +411,7 @@ export default {
   data(){
     return{
       productsTable : [
-        {code : '1' , name : 'name' ,type : 'type' , maingroup : 'maingroup' , subgroup : 'subgroup'},
+        // {code : '1' , name : 'name' ,type : 'type' , maingroup : 'maingroup' , subgroup : 'subgroup'},
       ],
 
       typesTable : [],
@@ -434,31 +435,47 @@ export default {
       title : 'محصولات',
       headers: [
         { text: 'Actions', value: 'actions', sortable: false , align: 'center'},
-        { text : 'subgroup' , value: 'subgroup' , align: 'center'} ,
-        { text : 'maingroup' , value: 'maingroup' , align: 'center'} ,
-        { text : 'type' , value: 'type' , align: 'center'} ,
-        { text : 'name' , value: 'name' , align: 'center'} ,
-        { text : 'code' , value: 'code' , align: 'center'} ,
+        { text : 'subgroupname' , value: 'subgroupname' , align: 'center'} ,
+        { text : 'maingroupname' , value: 'maingroupname' , align: 'center'} ,
+        { text : 'typename' , value: 'typename' , align: 'center'} ,
+        { text : 'productname' , value: 'productname' , align: 'center'} ,
+        { text : 'productcode' , value: 'productcode' , align: 'center'} ,
         // { text : 'id'   , value: 'id'   , align: 'center'} ,
       ],
       editedIndex: -1,
       editedItem : {
-        subgroup: {},
-        maingroup: {},
-        type: {},
-        name: '',
-        code: 0,
-        id: 0,
-
+        subgroup: {
+          id : '',
+          name : ''
+        },
+        maingroup: {
+          id : '',
+          name : ''
+        },
+        type: {
+          id : '',
+          name : ''
+        },
+        productcode: '',
+        productname: '',
+        productid: 0,
       },
       defaultItem: {
-        subgroup: '',
-        maingroup: '',
-        type: '',
-        name: '',
-        code: 0,
-        id: 0,
-
+        subgroup: {
+          id : '',
+          name : ''
+        },
+        maingroup: {
+          id : '',
+          name : ''
+        },
+        type: {
+          id : '',
+          name : ''
+        },
+        productcode: '',
+        productname: '',
+        productid: 0,
       },
     }
   },
@@ -473,6 +490,22 @@ export default {
   },
   methods : {
     initialize () {
+      this.setOverlayStatus(true);
+
+      this.retriveProducts()
+          .then(response => {
+            console.log(response)
+            console.log('----------')
+            this.showtable = true
+            this.setOverlayStatus(false);
+            this.productsTable = response
+          }).catch(status => {
+        if (status == '401'){
+          alert('شخص دیگری با اکانت شما وارد شده است')
+          this.$router.push({name : 'Authenticate'})
+        }
+      })
+
       this.retriveTypesFromStore()
       this.retriveMainGroupsFromStore()
       this.retriveSubGroupFromStore()
@@ -484,14 +517,36 @@ export default {
       clearSnackbar : 'GlobalModul/clearSnackbar',
       retriveTypes : 'TypeModul/retriveTypes',
       retriveMainGroup : 'MainGroupModul/retrivemainGroups',
-      retriveSubGroup : 'SubGroupModul/retrivesubGroups'
+      retriveSubGroup : 'SubGroupModul/retrivesubGroups',
+      retriveProducts : 'ProductModul/retriveProducts',
+      addProduct : 'ProductModul/addProduct',
+      editProduct : 'ProductModul/editProduct',
+      deleteProduct : 'ProductModul/deleteProduct'
     }),
 
 
     editItem (item) {
+
       this.editedIndex = this.productsTable.indexOf(item)
-      this.editedItem = Object.assign({}, item)
+      this.editedItem = {
+        subgroup: {
+          id : item.subgroupid,
+          name : item.subgroupname
+        },
+        maingroup: {
+          id : item.maingroupid,
+          name : item.maingroupname
+        },
+        type: {
+          id : item.typeid,
+          name : item.typename
+        },
+        productcode: item.productcode,
+        productname:  item.productname,
+        productid: item.productid,
+      }
       this.dialog = true
+
     },        // ok
 
     deleteItem (item) {
@@ -520,9 +575,32 @@ export default {
 
     deleteItemConfirm () {
 
-      this.productsTable.splice(this.editedIndex, 1)
-      this.setSnackbar({message : 'محصول با موفقیت حذف شد' , color : 'green'})
-      this.closeDelete()
+      this.setOverlayStatus(true)
+      this.deleteProduct(this.editedItem.productid)
+        .then(res => {
+          console.log(res)
+          this.productsTable.splice(this.editedIndex, 1)
+          this.setSnackbar({message : 'محصول با موفقیت حذف شد' , color : 'green'})
+          this.setOverlayStatus(false)
+          this.closeDelete()
+        })
+        .catch(err => {
+          console.log(err)
+          if(err.response.status == '422')
+          {
+            console.log(err.response.data.errors)
+            this.editErrors = err.response.data.errors
+            this.setOverlayStatus(false)
+          }
+          else if (err.response.status == '401')
+          {
+            alert('شخص دیگری با اکانت شما وارد شده است')
+            this.setOverlayStatus(false)
+            this.$router.push({name : 'Authenticate'})
+          }
+
+        })
+
 
     },       // ok
 
@@ -531,23 +609,84 @@ export default {
       if (this.editedIndex > -1)
       {
 
-        Object.assign(this.productsTable[this.editedIndex], this.editedItem)
 
-        this.setSnackbar({message : 'ماهیت مورد نظر ویرایش شد' , color : 'green'}  )
+        // todo : badan change shavad
+        this.productsTable[this.editedIndex].typename = this.editedItem.type.name
+        this.productsTable[this.editedIndex].typeid = this.editedItem.type.id
+        this.productsTable[this.editedIndex].maingroupname = this.editedItem.maingroup.name
+        this.productsTable[this.editedIndex].maingroupid = this.editedItem.maingroup.id
+        this.productsTable[this.editedIndex].subgroupname = this.editedItem.subgroup.name
+        this.productsTable[this.editedIndex].subgroupid = this.editedItem.subgroup.id
 
-        this.close()
+        this.editProduct(this.editedItem)
+          .then(res => {
+            console.log(res)
+            Object.assign(this.productsTable[this.editedIndex], this.editedItem)
+            this.setSnackbar({message : 'ماهیت مورد نظر ویرایش شد' , color : 'green'})
+            this.close()
+          })
+            .catch(err => {
+              console.log(err)
+              if(err.response.status == '422')
+              {
+                console.log(err.response.data.errors)
+                this.editErrors = err.response.data.errors
+                this.setOverlayStatus(false)
+              }
+              else if (err.response.status == '401')
+              {
+                alert('شخص دیگری با اکانت شما وارد شده است')
+                this.setOverlayStatus(false)
+                this.$router.push({name : 'Authenticate'})
+              }
+
+            })
+
+
 
       }
       else
       {
-        //this.editedItem.id = res.data.data.id
 
-        this.productsTable.push(this.editedItem)
+        var NewItem = {
+          typename       : this.editedItem.type.name,
+          typeid         : this.editedItem.type.id,
+          maingroupname  : this.editedItem.maingroup.name,
+          maingroupid    : this.editedItem.maingroup.id,
+          subgroupname   : this.editedItem.subgroup.name,
+          subgroupid     : this.editedItem.subgroup.id,
+          productname    : this.editedItem.productname ,
+          productcode    : this.editedItem.productcode ,
+          productid      : this.editedItem.productid ,
+        }
 
-        this.close()
+        this.setOverlayStatus(true)
 
-        this.setSnackbar({message : 'ماهیت مورد نظر افزوده شد' , color : 'green'}  )
+        this.addProduct(NewItem)
+          .then(res =>  {
+            console.log(res)
+            NewItem.productid = res.data.data.id
+            this.productsTable.push(NewItem)
+            this.setSnackbar({message : 'محصول مورد نظر افزوده شد' , color : 'green'}  )
+            this.setOverlayStatus(false)
+            this.close()
+          })
+          .catch(err => {
+                console.log(err)
+                if(err.response.status == '422')
+                {
+                  console.log(err.response.data.errors)
+                  this.editErrors = err.response.data.errors
+                  this.setOverlayStatus(false)
+                }
+                else if (err.response.status == '401')
+                {
+                  alert('شخص دیگری با اکانت شما وارد شده است')
+                  this.setOverlayStatus(false)
+                  this.$router.push({name : 'Authenticate'})
+                }
 
+          })
       }
 
     },
