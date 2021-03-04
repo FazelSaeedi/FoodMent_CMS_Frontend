@@ -4,11 +4,18 @@ export default {
     namespaced: true,
     state: {
         jwt   : localStorage.getItem('jwt') || null ,
+
+        userPhone : null
     },
     getters : {
+
         jwt : (state) =>{
             return state.jwt
         },
+
+        getUserPhone: (state) => {
+            return state.userPhone
+        }
     },
     actions: {
 
@@ -72,6 +79,10 @@ export default {
 
                 })
             })
+        },
+
+        setUserPhone : (context , userPhone ) => {
+            context.commit('setUserPhone' , userPhone)
         }
 
     },
@@ -81,8 +92,14 @@ export default {
             state.jwt = token
         },
 
+
         destroyToken  : (state) => {
             state.jwt = null
+        },
+
+
+        setUserPhone  : (state , userPhone) => {
+            state.userPhone = userPhone
         },
 
 
