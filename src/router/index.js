@@ -5,6 +5,7 @@ import CMSFraim from "@/views/Fraims/CMSFraim";
 import TypeFraim from "@/views/Fraims/CMSFraims/TypeFraim";
 import MainGroupFraim from "@/views/Fraims/CMSFraims/MainGroupFraim";
 import SubGroupFraim from "@/views/Fraims/CMSFraims/SubGroupFraim";
+import ProductFraim from "@/views/Fraims/CMSFraims/ProductFraim";
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const routes = [
                 path: 'subGroup',
                 name: 'SubGroupFraim',
                 component: SubGroupFraim
+            },
+            {
+                path: 'product',
+                name: 'ProductFraim',
+                component: ProductFraim
             }
 
         ]
