@@ -102,6 +102,7 @@ export default {
     alerts : [],
     items : [
       { title : 'ماهیت'  , icon : 'mdi-animation'  , link : {name : 'type'}},
+      { title : 'گروه اصلی'  , icon : 'mdi-animation'  , link : {name : 'MainGroupFraim'}},
     ]
   }),
   computed: {

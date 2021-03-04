@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Authenticate from "@/views/Fraims/AuthenticateFraim";
 import CMSFraim from "@/views/Fraims/CMSFraim";
 import TypeFraim from "@/views/Fraims/CMSFraims/TypeFraim";
-
+import MainGroupFraim from "@/views/Fraims/CMSFraims/MainGroupFraim";
 
 
 Vue.use(VueRouter)
@@ -29,6 +29,11 @@ const routes = [
                 path: 'type',
                 name: 'type',
                 component: TypeFraim
+            },
+            {
+                path: 'mainGroup',
+                name: 'MainGroupFraim',
+                component: MainGroupFraim
             }
         ]
 
