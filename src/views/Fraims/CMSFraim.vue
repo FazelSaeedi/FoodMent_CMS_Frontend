@@ -108,6 +108,7 @@ export default {
       { title : 'گروه اصلی'  , icon : 'mdi-animation'  , link : {name : 'MainGroupFraim'}},
       { title : 'گروه فرعی'  , icon : 'mdi-animation'  , link : {name : 'SubGroupFraim'}},
       { title : 'محصولات'  , icon : 'mdi-animation'  , link : {name : 'ProductFraim'}},
+      { title : 'رستوران ها'  , icon : 'mdi-animation'  , link : {name : 'RestrauntFraim'}},
     ]
   }),
   computed: {
