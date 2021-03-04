@@ -87,7 +87,7 @@ name: "Authenticate",
 
     ...mapGetters({
       JWT: 'UserModul/jwt',
-      overlay :'GlobalModul/overlay',
+      overlay :'GlobalModul/',
       getSnackbars : 'GlobalModul/getSnackbar'
     })
   },
@@ -99,29 +99,32 @@ name: "Authenticate",
       password : '',
     }
   },
-  beforeCreate(){
+  created(){
+    this.clearSnackbar()
+    this.setOverlayStatus(false)
     if(this.$store.state.UserModul.jwt){
       this.$router.push({name : 'type'})
     }
+
   },
   methods :{
     ...mapActions({
       retriveToken: 'UserModul/retriveToken',
-      swichOverlay : 'GlobalModul/swichOverlay',
+      setOverlayStatus : 'GlobalModul/setOverlayStatus',
       setSnackbar : 'GlobalModul/setSnackbar',
       clearSnackbar : 'GlobalModul/clearSnackbar'
     }),
 
     login() {
-      this.swichOverlay()
+      this.setOverlayStatus(true)
       this.retriveToken( {phone: this.phone, password: this.password})
           .then(response => {
             console.log(response)
-            this.swichOverlay()
+            this.setOverlayStatus(false)
             this.$router.push({name : 'type'})
             this.clearSnackbar()
           }).catch( error => {
-            this.swichOverlay()
+            this.setOverlayStatus(false)
             if (error == 'Error: Network Error'){
                 this.setSnackbar({message : 'Your Connection is fail' , color : 'error'})
             }

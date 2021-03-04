@@ -24,8 +24,8 @@ export default {
         }
     },
     actions: {
-        swichOverlay  : (context) => {
-            context.commit('swichOverlay')
+        setOverlayStatus  : (context , status) => {
+            context.commit('setOverlayStatus' , status)
         },
 
         setAlert : (context ,  { message , type }) =>{
@@ -46,8 +46,8 @@ export default {
 
     },
     mutations: {
-        swichOverlay  : (state) => {
-            state.overlay = !state.overlay
+        setOverlayStatus  : (state , status) => {
+            state.overlay = status
         },
 
         setAlert : (state , { message , type }) =>{

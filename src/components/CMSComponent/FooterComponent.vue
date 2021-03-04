@@ -4,7 +4,7 @@
        padless
       :outlined="true"
       :elevation="24"
-       fixed="true"
+      :fixed="true"
    >
      <v-col
          class="text-center"
