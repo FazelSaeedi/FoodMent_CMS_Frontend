@@ -51,7 +51,7 @@
 
               <v-dialog
                   v-model="dialog"
-                  max-width="500px"
+                  max-width="750px"
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -62,7 +62,7 @@
                       v-on="on"
                       small
                   >
-                    افزودن رستوران
+                    افزودن محصول
                   </v-btn>
                 </template>
                 <v-card>
@@ -70,14 +70,15 @@
                     <span class="headline text-center">{{ formTitle }}</span>
                   </v-card-title>
 
-                  <v-card-text>
-                    <v-container>
+                  <v-card-text
+                  >
+                    <v-container >
                       <v-row>
 
                         <v-col
                             cols="12"
                             sm="6"
-                            md="12"
+                            md="6"
 
 
                         >
@@ -91,7 +92,7 @@
                         <v-col
                             cols="12"
                             sm="6"
-                            md="12"
+                            md="6"
                         >
                           <v-text-field
                               v-model="editedItem.name"
@@ -103,46 +104,184 @@
                         <v-col
                             cols="12"
                             sm="6"
-                            md="12"
+                            md="6"
 
                         >
-                          <v-text-field
+                          <v-autocomplete
                               v-model="editedItem.type"
-                              label="ماهیت"
-                              :reverse="true"
-                          ></v-text-field>
+                              :items="typesTable"
+                              chips
+                              clearable
+                              item-text="name"
+                              item-value="name"
+                              deletable-chips
+                              return-object
+                              label="ماهیت مورد نظر خود را جستجو کنید"
+                              reverse
+                          >
+
+
+                            <template v-slot:no-data>
+                              <v-list-item>
+                                <v-list-item-title>
+                                  <strong>ماهیت</strong>
+                                  مورد نظر موجود نیست
+                                </v-list-item-title>
+                              </v-list-item>
+                            </template>
+
+                            <!--        <template v-slot:selection="{ attr, on, item, selected }">
+                              <v-chip
+                                  v-bind="attr"
+                                  :input-value="selected"
+                                  color="blue-grey"
+                                  class="white&#45;&#45;text"
+                                  v-on="on"
+                              >
+                                <v-icon left>
+                                  mdi-bitcoin
+                                </v-icon>
+                                <span v-text="item.name"></span>
+                              </v-chip>
+                            </template>-->
+
+                                    <template v-slot:item="{ item }" >
+                                      <v-row >
+                                        <v-col align="right">
+                                          <v-list-item-content>
+                                            <v-list-item-title v-text="item.name"></v-list-item-title>
+                                            <v-list-item-subtitle v-text="item.code  +' : کد '"></v-list-item-subtitle>
+                                          </v-list-item-content>
+                                        </v-col>
+                                      </v-row>
+
+                                    </template>
+
+                          </v-autocomplete>
+
                         </v-col>
 
                         <v-col
                             cols="12"
                             sm="6"
-                            md="12"
+                            md="6"
 
                         >
-                          <v-text-field
+                          <v-autocomplete
                               v-model="editedItem.maingroup"
-                              label="گروه اصلی"
-                              :reverse="true"
-                          ></v-text-field>
+                              :items="mainGroupsTable"
+                              chips
+                              clearable
+                              item-text="name"
+                              item-value="name"
+                              deletable-chips
+                              return-object
+                              label="گروه اصلی مورد نظر خود را جستجو کنید"
+                              reverse
+                          >
+
+
+                            <template v-slot:no-data>
+                              <v-list-item>
+                                <v-list-item-title>
+                                  <strong>ماهیت</strong>
+                                  مورد نظر موجود نیست
+                                </v-list-item-title>
+                              </v-list-item>
+                            </template>
+
+                            <!--        <template v-slot:selection="{ attr, on, item, selected }">
+                              <v-chip
+                                  v-bind="attr"
+                                  :input-value="selected"
+                                  color="blue-grey"
+                                  class="white&#45;&#45;text"
+                                  v-on="on"
+                              >
+                                <v-icon left>
+                                  mdi-bitcoin
+                                </v-icon>
+                                <span v-text="item.name"></span>
+                              </v-chip>
+                            </template>-->
+
+                            <template v-slot:item="{ item }" >
+                              <v-row >
+                                <v-col align="right">
+                                  <v-list-item-content>
+                                    <v-list-item-title v-text="item.name"></v-list-item-title>
+                                    <v-list-item-subtitle v-text="item.code  +' : کد '"></v-list-item-subtitle>
+                                  </v-list-item-content>
+                                </v-col>
+                              </v-row>
+                            </template>
+
+                          </v-autocomplete>
+
                         </v-col>
 
                         <v-col
                             cols="12"
                             sm="6"
-                            md="12"
+                            md="6"
 
                         >
-                          <v-text-field
+                          <v-autocomplete
                               v-model="editedItem.subgroup"
-                              label="گروه فرعی"
-                              :reverse="true"
-                          ></v-text-field>
+                              :items="subGroupsTable"
+                              chips
+                              clearable
+                              item-text="name"
+                              item-value="name"
+                              deletable-chips
+                              return-object
+                              label="گروه فرعی مورد نظر خود را جستجو کنید"
+                              reverse
+                          >
+
+
+                            <template v-slot:no-data>
+                              <v-list-item>
+                                <v-list-item-title>
+                                  <strong>ماهیت</strong>
+                                  مورد نظر موجود نیست
+                                </v-list-item-title>
+                              </v-list-item>
+                            </template>
+
+                            <!--        <template v-slot:selection="{ attr, on, item, selected }">
+                              <v-chip
+                                  v-bind="attr"
+                                  :input-value="selected"
+                                  color="blue-grey"
+                                  class="white&#45;&#45;text"
+                                  v-on="on"
+                              >
+                                <v-icon left>
+                                  mdi-bitcoin
+                                </v-icon>
+                                <span v-text="item.name"></span>
+                              </v-chip>
+                            </template>-->
+
+                            <template v-slot:item="{ item }" >
+                              <v-row >
+                                <v-col align="right">
+                                  <v-list-item-content>
+                                    <v-list-item-title v-text="item.name"></v-list-item-title>
+                                    <v-list-item-subtitle v-text="item.code  +' : کد '"></v-list-item-subtitle>
+                                  </v-list-item-content>
+                                </v-col>
+                              </v-row>
+                            </template>
+
+                          </v-autocomplete>
                         </v-col>
 
                         <v-col
                             cols="12"
                             sm="12"
-                            md="12"
+                            md="6"
                             v-for="(error , key) in editErrors"
                             :key="key"
 
@@ -211,6 +350,9 @@
 
             </v-toolbar>
           </template>
+          <template #item.type="{item}">{{item.type.name}}</template>
+          <template #item.maingroup="{item}">{{item.maingroup.name}}</template>
+          <template #item.subgroup="{item}">{{item.subgroup.name}}</template>
           <template v-slot:item.actions="{ item }">
             <v-icon
                 small
@@ -253,6 +395,8 @@
 
       </v-sheet>
 
+      {{this.editedItem.maingroup}}
+
     </v-col>
   </div>
 </template>
@@ -268,6 +412,11 @@ export default {
       productsTable : [
         {code : '1' , name : 'name' ,type : 'type' , maingroup : 'maingroup' , subgroup : 'subgroup'},
       ],
+
+      typesTable : [],
+      mainGroupsTable : [],
+      subGroupsTable : [],
+
 
       page: 1,
       pageCount: 0,
@@ -294,9 +443,9 @@ export default {
       ],
       editedIndex: -1,
       editedItem : {
-        subgroup: '',
-        maingroup: '',
-        type: '',
+        subgroup: {},
+        maingroup: {},
+        type: {},
         name: '',
         code: 0,
         id: 0,
@@ -324,14 +473,18 @@ export default {
   },
   methods : {
     initialize () {
-
-
+      this.retriveTypesFromStore()
+      this.retriveMainGroupsFromStore()
+      this.retriveSubGroupFromStore()
     },
 
     ...mapActions({
       setOverlayStatus : 'GlobalModul/setOverlayStatus',
       setSnackbar : 'GlobalModul/setSnackbar',
-      clearSnackbar : 'GlobalModul/clearSnackbar'
+      clearSnackbar : 'GlobalModul/clearSnackbar',
+      retriveTypes : 'TypeModul/retriveTypes',
+      retriveMainGroup : 'MainGroupModul/retrivemainGroups',
+      retriveSubGroup : 'SubGroupModul/retrivesubGroups'
     }),
 
 
@@ -399,6 +552,53 @@ export default {
 
     },
 
+    retriveTypesFromStore (){
+
+        this.retriveTypes()
+            .then(response => {
+              console.log(response)
+              //this.showtable = true
+              //this.setOverlayStatus(false);
+              this.typesTable = response
+            }).catch(status => {
+          if (status == '401'){
+            alert('شخص دیگری با اکانت شما وارد شده است')
+            //this.$router.push({name : 'LoginFraim'})
+          }
+        })
+
+    },
+
+    retriveMainGroupsFromStore(){
+      this.retriveMainGroup()
+          .then(response => {
+            console.log(response)
+            //this.showtable = true
+            //this.setOverlayStatus(false);
+            this.mainGroupsTable = response
+          }).catch(status => {
+        if (status == '401'){
+          alert('شخص دیگری با اکانت شما وارد شده است')
+          //this.$router.push({name : 'LoginFraim'})
+        }
+      })
+    },
+
+    retriveSubGroupFromStore(){
+
+      this.retriveSubGroup()
+          .then(response => {
+            console.log(response)
+            //this.showtable = true
+            //this.setOverlayStatus(false);
+            this.subGroupsTable = response
+          }).catch(status => {
+        if (status == '401'){
+          alert('شخص دیگری با اکانت شما وارد شده است')
+          //this.$router.push({name : 'LoginFraim'})
+        }
+      })
+    },
 
   },
   created() {
