@@ -62,7 +62,7 @@
                       v-on="on"
                       small
                   >
-                    افزودن رستوران
+                    افزودن ماهیت
                   </v-btn>
                 </template>
                 <v-card>
@@ -72,50 +72,59 @@
 
                   <v-card-text>
                     <v-container>
-                      <v-row>
-                        <v-col
-                            cols="12"
-                            sm="6"
-                            md="12"
+                      <v-form
+                      ref="form"
+                      v-model="valid"
+                      lazy-validation
+                      >
+                        <v-row>
 
-                        >
-                          <v-text-field
-                              v-model="editedItem.code"
-                              label="کد"
-                              :reverse="true"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            sm="6"
-                            md="12"
-                        >
-                          <v-text-field
-                              v-model="editedItem.name"
-                              label="نام"
-                              :reverse="true"
-                          ></v-text-field>
-                        </v-col>
+                          <v-col
+                              cols="12"
+                              sm="6"
+                              md="12"
 
-                        <v-col
-                            cols="12"
-                            sm="12"
-                            md="12"
-                            v-for="(error , key) in editErrors"
-                            :key="key"
-
-                        >
-                          <v-alert
-                              color="red "
-                              dark
-                              class="text-center reverse"
                           >
-                            {{error[0]}}
-                          </v-alert>
-                        </v-col>
+                            <v-text-field
+                                v-model="editedItem.code"
+                                label="کد"
+                                :reverse="true"
+                                :rules="codeRules"
+                            ></v-text-field>
+                          </v-col>
 
+                          <v-col
+                              cols="12"
+                              sm="6"
+                              md="12"
+                          >
+                            <v-text-field
+                                v-model="editedItem.name"
+                                label="نام"
+                                :reverse="true"
+                                :rules="nameRules"
+                            ></v-text-field>
+                          </v-col>
 
-                      </v-row>
+                          <v-col
+                              cols="12"
+                              sm="12"
+                              md="12"
+                              v-for="(error , key) in editErrors"
+                              :key="key"
+
+                          >
+                            <v-alert
+                                color="red "
+                                dark
+                                class="text-center reverse"
+                            >
+                              {{error[0]}}
+                            </v-alert>
+                          </v-col>
+
+                        </v-row>
+                      </v-form>
                     </v-container>
                   </v-card-text>
 
@@ -258,6 +267,17 @@ name: "TypeFraim",
         id: 0,
 
       },
+
+      valid : true ,
+
+      codeRules: [
+        v => !!v || 'کد الزامی است',
+        v => !isNaN(v) || 'لطفا کد را به صورت عدد وارد نمایید'
+      ],
+
+      nameRules: [
+        v => !!v || 'نام الزامی است',
+      ],
     }
   },
   computed: {
@@ -352,60 +372,65 @@ name: "TypeFraim",
     },          //ok
 
     save () {
-      this.setOverlayStatus(true)
-
-      if (this.editedIndex > -1)
+      if(this.$refs.form.validate())
       {
-        this.editType(this.editedItem)
-          .then(res => {
-            console.log(res)
-            this.setOverlayStatus(false)
-            Object.assign(this.typesTable[this.editedIndex], this.editedItem)
-            this.setSnackbar({message : 'ماهیت مورد نظر ویرایش شد' , color : 'green'}  )
-            this.close()
-          })
-          .catch(err => {
-            console.log(err)
-            if(err.response.status == '422')
-            {
-              console.log(err.response.data.errors)
-              this.editErrors = err.response.data.errors
-              this.setOverlayStatus(false)
-            }else           if (err.response.status == '401')
-            {
-              alert('شخص دیگری با اکانت شما وارد شده است')
-              this.setOverlayStatus(false)
-              this.$router.push({name : 'Authenticate'})
-            }
-            this.closeDelete()
+          this.setOverlayStatus(true)
 
-          })
-      }
-      else
-      {
+          if (this.editedIndex > -1)
+          {
+            this.editType(this.editedItem)
+              .then(res => {
+                console.log(res)
+                this.setOverlayStatus(false)
+                Object.assign(this.typesTable[this.editedIndex], this.editedItem)
+                this.setSnackbar({message : 'ماهیت مورد نظر ویرایش شد' , color : 'green'}  )
+                this.close()
+              })
+              .catch(err => {
+                console.log(err)
+                if(err.response.status == '422')
+                {
+                  console.log(err.response.data.errors)
+                  this.editErrors = err.response.data.errors
+                  this.setOverlayStatus(false)
+                }else           if (err.response.status == '401')
+                {
+                  alert('شخص دیگری با اکانت شما وارد شده است')
+                  this.setOverlayStatus(false)
+                  this.$router.push({name : 'Authenticate'})
+                }
+                this.closeDelete()
 
-        this.addType(this.editedItem)
-          .then(res => {
-            this.editedItem.id = res.data.data.id
-            this.typesTable.push(this.editedItem)
-            this.close()
-            this.setSnackbar({message : 'ماهیت مورد نظر افزوده شد' , color : 'green'}  )
-            this.setOverlayStatus(false)
-          })
-          .catch(err => {
-            console.log(err)
-            if(err.response.status == '422')
-            {
-              console.log(err.response.data.errors)
-              this.editErrors = err.response.data.errors
-              this.setOverlayStatus(false)
-            }else if (err.response.status == '401')
-            {
-              alert('شخص دیگری با اکانت شما وارد شده است')
-              this.setOverlayStatus(false)
-              this.$router.push({name : 'Authenticate'})
-            }
-          })
+              })
+          }
+          else
+          {
+
+            this.addType(this.editedItem)
+              .then(res => {
+                this.editedItem.id = res.data.data.id
+                this.typesTable.push(this.editedItem)
+                this.close()
+                this.setSnackbar({message : 'ماهیت مورد نظر افزوده شد' , color : 'green'}  )
+                this.setOverlayStatus(false)
+
+              })
+              .catch(err => {
+                console.log(err)
+                if(err.response.status == '422')
+                {
+                  console.log(err.response.data.errors)
+                  this.editErrors = err.response.data.errors
+                  this.setOverlayStatus(false)
+                }else if (err.response.status == '401')
+                {
+                  alert('شخص دیگری با اکانت شما وارد شده است')
+                  this.setOverlayStatus(false)
+                  this.$router.push({name : 'Authenticate'})
+                }
+              })
+          }
+
       }
 
     },
@@ -413,6 +438,8 @@ name: "TypeFraim",
 
   },
   created() {
+
+
 
     this.initialize()
 
