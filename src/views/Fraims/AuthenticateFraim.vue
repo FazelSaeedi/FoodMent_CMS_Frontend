@@ -112,7 +112,8 @@ name: "Authenticate",
       retriveToken: 'UserModul/retriveToken',
       setOverlayStatus : 'GlobalModul/setOverlayStatus',
       setSnackbar : 'GlobalModul/setSnackbar',
-      clearSnackbar : 'GlobalModul/clearSnackbar'
+      clearSnackbar : 'GlobalModul/clearSnackbar',
+      setUserPhone : 'UserModul/setUserPhone'
     }),
 
     login() {
@@ -122,6 +123,7 @@ name: "Authenticate",
             console.log(response)
             this.setOverlayStatus(false)
             this.$router.push({name : 'type'})
+            this.setUserPhone(this.phone)
             this.clearSnackbar()
           }).catch( error => {
             this.setOverlayStatus(false)

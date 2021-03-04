@@ -18,6 +18,9 @@
             <v-list-item-subtitle class="title text-center">
               FoodMent
             </v-list-item-subtitle>
+            <v-list-item-subtitle class="title text-center">
+              {{ this.getUserPhone }}
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
 
@@ -110,7 +113,8 @@ export default {
 
     ...mapGetters({
       getAlerts : 'GlobalModul/getAlerts',
-      getSnackbars : 'GlobalModul/getSnackbar'
+      getSnackbars : 'GlobalModul/getSnackbar',
+      getUserPhone : 'UserModul/getUserPhone'
     })
   },
   created() {
