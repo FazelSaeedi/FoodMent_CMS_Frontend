@@ -7,6 +7,7 @@ import MainGroupFraim from "@/views/Fraims/CMSFraims/MainGroupFraim";
 import SubGroupFraim from "@/views/Fraims/CMSFraims/SubGroupFraim";
 import ProductFraim from "@/views/Fraims/CMSFraims/ProductFraim";
 import RestrauntFraim from "@/views/Fraims/CMSFraims/RestrauntFraim";
+import MenuRestraunt from "@/views/Fraims/CMSFraims/MenuRestraunt";
 
 Vue.use(VueRouter)
 
@@ -51,6 +52,11 @@ const routes = [
                 path: 'restraunt',
                 name: 'RestrauntFraim',
                 component: RestrauntFraim
+            },
+            {
+                path: 'restraunt/menu/:id',
+                name: 'MenuRestraunt',
+                component: MenuRestraunt
             }
 
         ]

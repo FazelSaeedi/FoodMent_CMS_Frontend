@@ -759,7 +759,10 @@ export default {
     },
 
     showMenu(item){
-      alert(item)
+      this.$router.push({
+        name : 'MenuRestraunt' ,
+        params: { id : item.id }
+      })
     }
 
 
