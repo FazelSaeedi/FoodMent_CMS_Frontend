@@ -5,7 +5,7 @@ export default {
     state: {
         jwt   : localStorage.getItem('jwt') || null ,
 
-        userPhone : null,
+        userPhone : localStorage.getItem('phone' ) || null,
 
         usersTable : {}
     },
@@ -88,6 +88,7 @@ export default {
         },
 
         setUserPhone : (context , userPhone ) => {
+            localStorage.setItem('phone' , userPhone)
             context.commit('setUserPhone' , userPhone)
         },
 

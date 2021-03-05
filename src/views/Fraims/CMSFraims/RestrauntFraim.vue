@@ -40,7 +40,10 @@
                       :single-expand="true"
                       show-expand
 
+
+
         >
+
           <template v-slot:expanded-item="{ headers, item }" @click="rowExpend()">
             <td :colspan="headers.length" align="center" >
               <v-row
@@ -86,10 +89,22 @@
 
             </td>
           </template>
+
+          <template v-slot:item.menu="{item}">
+            <v-icon
+                small
+                class="mr-2"
+                @click="showMenu(item)"
+            >
+              mdi-menu
+            </v-icon>
+          </template>
+
           <template v-slot:top >
             <v-toolbar
                 flat
             >
+
               <v-divider
                   class="mx-4"
                   inset
@@ -110,8 +125,13 @@
                       v-on="on"
                       small
                   >
-                    افزودن گروه اصلی
+                    افزودن رستوران
                   </v-btn>
+
+
+
+
+
                 </template>
                 <v-card>
                   <v-card-title class="justify-center" >
@@ -369,8 +389,8 @@
           ></v-text-field>
         </div>
 
+
       </v-sheet>
-      {{this.selectedFile}}
     </v-col>
   </div>
 </template>
@@ -387,6 +407,7 @@ export default {
       restrauntTable : [],
       usersTable : [],
       valid : '',
+      selected: [],
 
       page: 1,
       pageCount: 0,
@@ -403,6 +424,7 @@ export default {
       showtable : true ,
       title : 'رستوران ها',
       headers: [
+        { text: 'menu', value: 'menu', sortable: false , align: 'center'},
         { text: 'Actions', value: 'actions', sortable: false , align: 'center'},
         { text : 'admin' , value: 'adminName' , align: 'center'} ,
         { text : 'phone' , value: 'phone' , align: 'center'} ,
@@ -461,6 +483,13 @@ export default {
   },
   computed: {
 
+    setShowMenu() {
+      if (this.selected.length == 0)
+        return false
+      else
+        return true
+    },
+
     ...mapGetters({
     }),
 
@@ -470,14 +499,16 @@ export default {
   },
   methods : {
     initialize () {
-
+      this.setOverlayStatus(true)
       this.retriveRestraunts()
           .then(res => {
             console.log(res)
             this.restrauntTable = res
+            this.setOverlayStatus(false)
           })
           .catch(err => {
             console.log(err)
+            this.setOverlayStatus(false)
           })
 
 
@@ -594,9 +625,53 @@ export default {
           this.restrauntTable[this.editedIndex].adminName = this.editedItem.user.phone
           this.restrauntTable[this.editedIndex].adminid   = this.editedItem.user.id
 
+          const fd = new FormData();
+          //fd.append('photo1' , this.selectedFile.photo1 , this.selectedFile.photo1.name)
+          //fd.append('photo2' , this.selectedFile.photo2 , this.selectedFile.photo2.name)
+          //fd.append('photo3' , this.selectedFile.photo3 , this.selectedFile.photo3.name)
 
-          this.setSnackbar({message : 'گروه اصلی مورد نظر ویرایش شد' , color : 'green'}  )
-          this.close()
+          fd.append('id' , this.editedItem.id)
+          fd.append('code' , this.editedItem.code)
+          fd.append('name' , this.editedItem.name)
+          fd.append('phone' , this.editedItem.phone)
+          fd.append('address' , this.editedItem.address)
+          fd.append('adminName' , this.editedItem.user.phone)
+          fd.append('adminid' , this.editedItem.user.id )
+          fd.append('srcphoto1' , '---------' )
+          fd.append('srcphoto2' , '---------' )
+          fd.append('srcphoto3' , '---------')
+
+
+          this.setOverlayStatus(true)
+
+          axios.post('http://kalament.ir/api/v1/restraunt/editrestraunt' , fd , {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Content-type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+            }
+          })
+              .then(res => {
+                console.log(res)
+                this.close()
+                this.setSnackbar({message : 'گروه اصلی مورد نظر ویرایش شد' , color : 'green'}  )
+                this.setOverlayStatus(false)
+              })
+              .catch(err => {
+                console.log(err)
+                if(err.response.status == '422')
+                {
+                  console.log(err.response.data.errors)
+                  this.editErrors = err.response.data.errors
+                  this.setOverlayStatus(false)
+                }
+                else if (err.response.status == '401')
+                {
+                  alert('شخص دیگری با اکانت شما وارد شده است')
+                  this.setOverlayStatus(false)
+                  this.$router.push({name : 'Authenticate'})
+                }
+              })
 
         }
         else
@@ -683,7 +758,9 @@ export default {
       this.selectedFile.photo3 = event.target.files[0]
     },
 
-
+    showMenu(item){
+      alert(item)
+    }
 
 
 

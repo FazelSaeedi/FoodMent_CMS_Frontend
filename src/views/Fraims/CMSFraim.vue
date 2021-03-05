@@ -19,7 +19,7 @@
               FoodMent
             </v-list-item-subtitle>
             <v-list-item-subtitle class="title text-center">
-              {{ this.getUserPhone }}
+<!--              {{ this.getUserPhone }}-->
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
