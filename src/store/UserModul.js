@@ -5,7 +5,9 @@ export default {
     state: {
         jwt   : localStorage.getItem('jwt') || null ,
 
-        userPhone : null
+        userPhone : null,
+
+        usersTable : {}
     },
     getters : {
 
@@ -15,6 +17,10 @@ export default {
 
         getUserPhone: (state) => {
             return state.userPhone
+        },
+
+        getUsersTable : (state) => {
+            return state.usersTable
         }
     },
     actions: {
@@ -83,6 +89,29 @@ export default {
 
         setUserPhone : (context , userPhone ) => {
             context.commit('setUserPhone' , userPhone)
+        },
+
+        retriveUsersTable : ( context ) => {
+
+
+            return new Promise((resolve , reject ) => {
+                axios.get('http://kalament.ir/api/v1/user/getusers' ,{
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+                    },timeout : 4000
+                  },
+                ).then(res => {
+                    console.log(res)
+                    context.commit('retriveUsersTable' , res)
+                    resolve(res)
+                }).catch(err => {
+                    console.log(err)
+                    reject(err)
+                })
+            })
+
         }
 
     },
@@ -102,6 +131,10 @@ export default {
             state.userPhone = userPhone
         },
 
+
+        retriveUsersTable  : (state , usersTable) => {
+            state.userPhone = usersTable
+        },
 
 
     }
