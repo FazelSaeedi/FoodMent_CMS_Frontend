@@ -39,9 +39,6 @@
 
                       :single-expand="true"
                       show-expand
-
-
-
         >
 
           <template v-slot:expanded-item="{ headers, item }" @click="rowExpend()">
@@ -761,7 +758,7 @@ export default {
     showMenu(item){
       this.$router.push({
         name : 'MenuRestraunt' ,
-        params: { id : item.id }
+        params: { id : item.id , restrauntName : item.name}
       })
     }
 

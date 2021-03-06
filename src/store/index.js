@@ -7,6 +7,7 @@ import MainGroupModul from "@/store/MainGroupModul";
 import SubGroupModul from "@/store/SubGroupModul";
 import ProductModul from "@/store/ProductModul";
 import RestrauntModul from "@/store/RestrauntModul";
+import MenuRestrauntModul from "@/store/MenuRestrauntModul";
 Vue.use(Vuex)
 
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     MainGroupModul,
     SubGroupModul,
     ProductModul,
-    RestrauntModul
+    RestrauntModul,
+    MenuRestrauntModul
   }
 })
