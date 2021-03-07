@@ -702,7 +702,7 @@ export default {
           })
           .catch(err => {
                 console.log(err)
-                if(err.response.status == '422')
+                if(err.response.status == '422' || err.response.status == '409')
                 {
                   console.log(err.response.data.errors)
                   this.editErrors = err.response.data.errors
