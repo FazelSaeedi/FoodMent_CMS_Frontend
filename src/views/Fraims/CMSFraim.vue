@@ -164,5 +164,8 @@ export default {
 </script>
 
 <style scoped>
-
+.container {
+  max-width: 1900px;
+  min-width: 500px;
+}
 </style>

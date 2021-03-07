@@ -273,7 +273,6 @@
                             </v-alert>
                           </v-col>
 
-
                         </v-row>
                       </v-form>
                     </v-container>
@@ -465,7 +464,8 @@ export default {
         photo1 : null ,
         photo2 : null ,
         photo3 : null
-      }
+      },
+
 
 
     }
@@ -732,6 +732,7 @@ export default {
     onFileSelected1(event) {
       //console.log(event)
       this.selectedFile.photo1 = event.target.files[0]
+
     },
 
     onFileSelected2(event) {

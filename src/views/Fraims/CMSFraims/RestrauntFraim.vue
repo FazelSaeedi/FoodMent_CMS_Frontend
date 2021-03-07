@@ -1,9 +1,10 @@
 <template>
   <div>
-    <v-col  class="pr-3 pl-3 pb-16">
+    <v-col  class="pr-3 pl-3 pb-16" >
       <v-sheet style="background-color: #fdfdfd" class="rounded-lg">
         <v-app-bar class="rounded-t-lg elevation-1 " style="background-color: #fdfdfd">
           <v-spacer></v-spacer>
+
 
           <h3>{{title}}</h3>
           <v-spacer></v-spacer>
@@ -22,6 +23,7 @@
               hint
               :loading="false"
               :reverse="true"
+
           ></v-text-field>
         </v-col>
 
@@ -32,11 +34,9 @@
                       :search="search"
                       :mobile-breakpoint="5"
                       :hide-default-footer="true"
-
                       :page.sync="page"
                       :items-per-page="itemsPerPage"
                       @page-count="pageCount = $event"
-
                       :single-expand="true"
                       show-expand
         >
@@ -54,7 +54,7 @@
                       max-height="120"
                       max-width="120"
                       class="text-center m-auto"
-
+                      alt=""
                   >
 
                   </v-img>
@@ -121,6 +121,7 @@
                       v-bind="attrs"
                       v-on="on"
                       small
+                      @click="addRestrauntButton"
                   >
                     افزودن رستوران
                   </v-btn>
@@ -154,6 +155,7 @@
                                 v-model="editedItem.code"
                                 label="کد"
                                 :reverse="true"
+                                :rules="codeRules"
                             ></v-text-field>
                           </v-col>
 
@@ -166,6 +168,7 @@
                                 v-model="editedItem.name"
                                 label="نام"
                                 :reverse="true"
+                                :rules="nameRules"
                             ></v-text-field>
                           </v-col>
 
@@ -178,6 +181,7 @@
                                 v-model="editedItem.address"
                                 label="آدرس"
                                 :reverse="true"
+                                :rules="addressRules"
                             ></v-text-field>
                           </v-col>
 
@@ -190,13 +194,14 @@
                                 v-model="editedItem.phone"
                                 label="تلفن"
                                 :reverse="true"
+                                :rules="phoneRules"
                             ></v-text-field>
                           </v-col>
 
                           <v-col
                               cols="12"
-                              sm="6"
-                              md="6"
+                              sm="12"
+                              md="12"
                           >
                             <v-autocomplete
                                 v-model="editedItem.user"
@@ -209,6 +214,9 @@
                                 return-object
                                 label="گروه اصلی مورد نظر خود را جستجو کنید"
                                 reverse
+                                @change="changeAutocomplete"
+                                :error="autocompleteError"
+                                :rules="nameRules"
                             >
 
 
@@ -253,23 +261,56 @@
 
                           <v-col
                               cols="12"
-                              sm="6"
-                              md="6"
+                              sm="12"
+                              md="12"
                           >
-                            <!--                            <v-file-input
-                                                            @change="Preview_image()"
-                                                            v-model="image"
-                                                        >
-                                                        </v-file-input>-->
-                            <input  type="file" @change="onFileSelected1">
 
-                            <input type="file" @change="onFileSelected2">
-
-                            <input type="file" @change="onFileSelected3">
-                            <!--                            <v-img max-height="50" max-width="50" :src="url"></v-img>-->
+<!--                            <input  type="file" @change="onFileSelected1">-->
+<!--                            <v-file-input  @change="onFileSelected1" v-model="image1URl"></v-file-input>-->
+                            <v-file-input
+                                accept="image/*"
+                                label="File input"
+                                v-model="selectedFile.photo1"
+                                @change="onFileSelected1"
+                                :rules="imageRules"
+                                :validate-on-blur="true"
+                            ></v-file-input >
+                            <img :src="image1URl" v-if="image1URl"  width="50px" height="50px" >
                           </v-col>
 
+                          <v-col
+                              cols="12"
+                              sm="12"
+                              md="12"
+                          >
+                            <v-file-input
+                                accept="image/*"
+                                label="File input"
+                                v-model="selectedFile.photo2"
+                                @change="onFileSelected2"
+                                :rules="imageRules"
+                                :validate-on-blur="true"
+                            ></v-file-input>
+                            <img :src="image2URl"  v-if="image2URl" width="50px" height="50px">
 
+                          </v-col>
+
+                          <v-col
+                              cols="12"
+                              sm="12"
+                              md="12"
+                          >
+                            <v-file-input
+                                accept="image/*"
+                                label="File input"
+                                v-model="selectedFile.photo3"
+                                @change="onFileSelected3"
+                                :rules="imageRules"
+                                :validate-on-blur="true"
+
+                            ></v-file-input>
+                            <img :src="image3URl"  v-if="image3URl" width="50px" height="50px">
+                          </v-col>
 
 
                           <v-col
@@ -421,13 +462,13 @@ export default {
       showtable : true ,
       title : 'رستوران ها',
       headers: [
-        { text: 'menu', value: 'menu', sortable: false , align: 'center'},
-        { text: 'Actions', value: 'actions', sortable: false , align: 'center'},
+        { text: 'menu', value: 'menu', sortable: false , align: 'center' },
+        { text: 'Actions', value: 'actions', sortable: false , align: 'center' },
         { text : 'admin' , value: 'adminName' , align: 'center'} ,
         { text : 'phone' , value: 'phone' , align: 'center'} ,
-        { text : 'address' , value: 'address' , align: 'center'} ,
-        { text : 'name' , value: 'name' , align: 'center'} ,
-        { text : 'code' , value: 'code' , align: 'center'} ,
+        { text : 'address' , value: 'address' , align: 'center' , width : '500px'} ,
+        { text : 'name' , value: 'name' , align: 'center' , width : '100px'} ,
+        { text : 'code' , value: 'code' , align: 'center' , width : '50px'} ,
       ],
       editedIndex: -1,
       editedItem : {
@@ -466,20 +507,30 @@ export default {
       phoneRules: [
         v => !!v || 'تلفن الزامی است',
       ],
-
+      imageRules: [ v => !!v || ' image الزامی است',],
+      adminRules: [ v => !!v || 'admin الزامی است',],
 
 
       selectedFile : {
-        photo1 : null ,
-        photo2 : null ,
-        photo3 : null
-      }
+        photo1 : [] ,
+        photo2 : []  ,
+        photo3 : []
+      },
 
+      image1URl : '',
+      image2URl : '',
+      image3URl : '',
+
+      autocompleteError : false
 
     }
   },
   computed: {
+    form(){
+      return{
 
+      }
+    },
     setShowMenu() {
       if (this.selected.length == 0)
         return false
@@ -560,6 +611,19 @@ export default {
 
     editItem (item) {
 
+      this.selectedFile.photo1 = []
+      this.selectedFile.photo2 = []
+      this.selectedFile.photo3 = []
+
+
+
+
+      this.image1URl =  'https://www.kalament.ir/foodment/public/images/'+item.id+'/banner/banner1.jpg'+'?'+ (new Date()).getTime();
+      this.image2URl =  'https://www.kalament.ir/foodment/public/images/'+item.id+'/banner/banner2.jpg'+'?'+ (new Date()).getTime();
+      this.image3URl =  'https://www.kalament.ir/foodment/public/images/'+item.id+'/banner/banner3.jpg'+'?'+ (new Date()).getTime();
+
+
+
       console.log(item)
       this.editedIndex = this.restrauntTable.indexOf(item)
 
@@ -608,9 +672,12 @@ export default {
 
     save () {
 
-      if(this.$refs.form.validate())
+      if(this.$refs.form.validate() && this.image1URl.length > 1
+          && this.image2URl.length > 1
+          && this.image3URl.length > 1
+          && this.editedItem.user.id
+      )
       {
-
         if (this.editedIndex > -1)
         {
           // todo : badan change shavad
@@ -634,9 +701,37 @@ export default {
           fd.append('address' , this.editedItem.address)
           fd.append('adminName' , this.editedItem.user.phone)
           fd.append('adminid' , this.editedItem.user.id )
-          fd.append('srcphoto1' , '---------' )
-          fd.append('srcphoto2' , '---------' )
-          fd.append('srcphoto3' , '---------')
+
+
+
+
+          if (this.selectedFile.photo1 == 0)
+          {
+            fd.append('srcphoto1' , this.image1URl )
+          }
+          else{
+            fd.append('photo1' , this.selectedFile.photo1 , this.selectedFile.photo1.name)
+          }
+
+
+          if (this.selectedFile.photo2 == 0)
+          {
+            fd.append('srcphoto2' , '---------' )
+          }
+          else{
+            fd.append('photo2' , this.selectedFile.photo2 , this.selectedFile.photo2.name)
+          }
+
+          if (this.selectedFile.photo3 == 0)
+          {
+            fd.append('srcphoto3' , '---------')
+          }
+          else{
+             fd.append('photo3' , this.selectedFile.photo3 , this.selectedFile.photo3.name)
+          }
+
+
+
 
 
           this.setOverlayStatus(true)
@@ -668,7 +763,10 @@ export default {
                   this.setOverlayStatus(false)
                   this.$router.push({name : 'Authenticate'})
                 }
+                this.setOverlayStatus(false)
+
               })
+
 
         }
         else
@@ -711,7 +809,6 @@ export default {
                 this.close()
                 this.setSnackbar({message : 'گروه اصلی مورد نظر افزوده شد' , color : 'green'}  )
                 this.setOverlayStatus(false)
-
               })
               .catch(err => {
                 console.log(err)
@@ -725,8 +822,10 @@ export default {
                 {
                   alert('شخص دیگری با اکانت شما وارد شده است')
                   this.setOverlayStatus(false)
+
                   this.$router.push({name : 'Authenticate'})
                 }
+                this.setOverlayStatus(false)
               })
 
         }
@@ -734,25 +833,57 @@ export default {
       }
 
 
+
     },
 
     rowExpend(item , bannerNumber) {
-      return 'https://www.kalament.ir/foodment/public/images/'+item+'/banner/banner'+bannerNumber+'.jpg'
+      return 'https://www.kalament.ir/foodment/public/images/'+item+'/banner/banner'+bannerNumber+'.jpg'+'?'+ (new Date()).getTime();
     },
 
     onFileSelected1(event) {
-      //console.log(event)
-      this.selectedFile.photo1 = event.target.files[0]
+    console.log(event)
+
+      this.selectedFile.photo1 = event
+
+      if (this.selectedFile.photo1){
+        const fileReader = new FileReader()
+        fileReader.addEventListener('load' , () => {
+          this.image1URl = fileReader.result
+        })
+        fileReader.readAsDataURL(event)
+      }
+      else
+        this.image1URl = null;
+
+
     },
 
     onFileSelected2(event) {
-      //console.log(event)
-      this.selectedFile.photo2 = event.target.files[0]
+      this.selectedFile.photo2 = event
+
+      if (this.selectedFile.photo2){
+        const fileReader = new FileReader()
+        fileReader.addEventListener('load' , () => {
+          this.image2URl = fileReader.result
+        })
+        fileReader.readAsDataURL(event)
+      }
+      else
+        this.image2URl = null;
     },
 
     onFileSelected3(event) {
-      //console.log(event)
-      this.selectedFile.photo3 = event.target.files[0]
+      this.selectedFile.photo3 = event
+
+      if (this.selectedFile.photo3){
+        const fileReader = new FileReader()
+        fileReader.addEventListener('load' , () => {
+          this.image3URl = fileReader.result
+        })
+        fileReader.readAsDataURL(event)
+      }
+      else
+        this.image3URl = null;
     },
 
     showMenu(item){
@@ -760,8 +891,26 @@ export default {
         name : 'MenuRestraunt' ,
         params: { id : item.id , restrauntName : item.name}
       })
-    }
+    },
 
+    changeAutocomplete(event)
+    {
+      if (!event)
+        this.autocompleteError = true
+      else
+        this.autocompleteError = false
+    },
+
+    addRestrauntButton()
+    {
+      this.image1URl  = ''
+      this.image2URl   = ''
+      this.image3URl  = ''
+
+      this.selectedFile.photo1 = []
+      this.selectedFile.photo2 = []
+      this.selectedFile.photo3 = []
+    }
 
 
   },
