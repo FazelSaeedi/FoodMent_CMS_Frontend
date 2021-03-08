@@ -32,6 +32,7 @@
                       :search="search"
                       :mobile-breakpoint="5"
                       :hide-default-footer="true"
+                      item-key="productid"
 
 
                       :page.sync="page"
@@ -523,15 +524,39 @@ export default {
       setOverlayStatus : 'GlobalModul/setOverlayStatus',
       setSnackbar : 'GlobalModul/setSnackbar',
       clearSnackbar : 'GlobalModul/clearSnackbar',
-      retriveProducts : 'ProductModul/retriveProducts'
+      retriveProducts : 'ProductModul/retriveProducts',
+      deleteMenuProduct : 'MenuRestrauntModul/deleteMenuProduct'
 
     }),
 
     deleteItemConfirm () {
-      //this.setOverlayStatus(true)
 
-      this.menuTable.splice(this.editedIndex, 1)
-      this.setSnackbar({message : 'محصول با موفقیت حذف شد' , color : 'green'})
+      this.setOverlayStatus(true)
+
+      this.deleteMenuProduct(this.editedItem.menuid)
+          .then(res => {
+            console.log(res)
+            this.menuTable.splice(this.editedIndex, 1)
+            this.setSnackbar({message : 'محصول با موفقیت حذف شد' , color : 'green'})
+            this.setOverlayStatus(false)
+            this.closeDelete()
+          })
+          .catch(err => {
+            console.log(err)
+            if(err.response.status == '422')
+            {
+              console.log(err.response.data.errors)
+              this.editErrors = err.response.data.errors
+              this.setOverlayStatus(false)
+            }
+            else if (err.response.status == '401')
+            {
+              alert('شخص دیگری با اکانت شما وارد شده است')
+              this.setOverlayStatus(false)
+              this.$router.push({name : 'Authenticate'})
+            }
+
+          })
     },
 
     editItem (item) {
@@ -726,7 +751,7 @@ export default {
 
     rowExpend(productid , bannerNumber) {
 
-      return 'http://www.kalament.ir/foodment/public/images/'+this.restrauntId+'/food/'+productid+'/'+bannerNumber+'.jpg'
+      return 'http://www.kalament.ir/foodment/public/images/'+this.restrauntId+'/food/'+productid+'/'+bannerNumber+'.jpg'+'?'+ (new Date()).getTime();
     },
 
     onFileSelected1(event) {

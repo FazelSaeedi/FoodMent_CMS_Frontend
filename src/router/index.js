@@ -8,6 +8,7 @@ import SubGroupFraim from "@/views/Fraims/CMSFraims/SubGroupFraim";
 import ProductFraim from "@/views/Fraims/CMSFraims/ProductFraim";
 import RestrauntFraim from "@/views/Fraims/CMSFraims/RestrauntFraim";
 import MenuRestraunt from "@/views/Fraims/CMSFraims/MenuRestraunt";
+//import NewMenuRestraunt from "@/views/Fraims/CMSFraims/NewMenuRestraunt";
 
 Vue.use(VueRouter)
 

@@ -38,11 +38,39 @@ export default {
 
         },
 
+
+        deleteMenuProduct : (context , menuProductId) => {
+
+            return  new Promise((resolve , reject ) =>{
+                axios.post('https://www.kalament.ir/api/v1/menu/deletemenuproduct' ,{
+                    id    :   menuProductId ,
+                },{
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+                    }
+                }).then(res => {
+                    console.log(res)
+                    resolve(res)
+                }).catch(err => {
+                    console.log(err.response)
+                    reject(err)
+                })
+            })
+        },
+
+
     },
     mutations: {
 
         retriveMenuRestraunt : (state , restrauntId) => {
             console.log(state + restrauntId)
+        },
+
+
+        deleteMenuProduct : (state , menuProductId) => {
+            console.log(state + menuProductId)
         }
 
     }
