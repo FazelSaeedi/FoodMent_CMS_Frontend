@@ -18,7 +18,6 @@
               :single-line="false"
               hide-details
               clearable
-              autofocus
               hint
               :loading="false"
               :reverse="true"
