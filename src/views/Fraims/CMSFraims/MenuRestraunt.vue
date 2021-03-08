@@ -27,7 +27,7 @@
 
         <v-data-table v-if="showtable"
                       :headers="headers"
-                      :items="menuTable"
+                      :items="menuRestraunTable"
                       class="elevation-1 text-center"
                       :search="search"
                       :mobile-breakpoint="5"
@@ -144,8 +144,8 @@
 
                           <v-col
                               cols="12"
-                              sm="6"
-                              md="6"
+                              sm="12"
+                              md="12"
                           >
                             <v-autocomplete
                                 v-model="editedItem.productid"
@@ -157,6 +157,7 @@
                                 deletable-chips
                                 label="محصول اصلی مورد نظر خود را جستجو کنید"
                                 reverse
+                                :rules="productRules"
                             >
 
 
@@ -201,7 +202,7 @@
 
                           <v-col
                               cols="12"
-                              sm="6"
+                              sm="12"
                               md="12"
 
                           >
@@ -209,6 +210,7 @@
                                 v-model="editedItem.menuprice"
                                 label="قیمت"
                                 :reverse="true"
+                                :rules="priceRull"
                             ></v-text-field>
                           </v-col>
 
@@ -223,6 +225,7 @@
                                 v-model="editedItem.menudiscount"
                                 label="تخفیف"
                                 :reverse="true"
+                                :rules="discountRules"
                             ></v-text-field>
                           </v-col>
 
@@ -237,23 +240,62 @@
                                 v-model="editedItem.menumakeup"
                                 label="مواد تشکیل دهنده"
                                 :reverse="true"
+                                :rules="makeupsRules"
                             ></v-text-field>
                           </v-col>
 
 
+                          <v-col
+                              cols="12"
+                              sm="12"
+                              md="12"
+                          >
+
+                            <v-file-input
+                                accept="image/*"
+                                label="File input"
+                                v-model="selectedFile.photo1"
+                                @change="onFileSelected1"
+                                :rules="imageRules"
+                                :validate-on-blur="true"
+                            ></v-file-input >
+                            <img :src="image1URl" v-if="image1URl"  width="50px" height="50px" >
+                          </v-col>
+
 
                           <v-col
                               cols="12"
-                              sm="6"
-                              md="6"
+                              sm="12"
+                              md="12"
                           >
+                            <v-file-input
+                                accept="image/*"
+                                label="File input"
+                                v-model="selectedFile.photo2"
+                                @change="onFileSelected2"
+                                :rules="imageRules"
+                                :validate-on-blur="true"
+                            ></v-file-input>
+                            <img :src="image2URl"  v-if="image2URl" width="50px" height="50px">
 
-                            <input  type="file" @change="onFileSelected1">
+                          </v-col>
 
-                            <input type="file" @change="onFileSelected2">
 
-                            <input type="file" @change="onFileSelected3">
-                            <!--                            <v-img max-height="50" max-width="50" :src="url"></v-img>-->
+                          <v-col
+                              cols="12"
+                              sm="12"
+                              md="12"
+                          >
+                            <v-file-input
+                                accept="image/*"
+                                label="File input"
+                                v-model="selectedFile.photo3"
+                                @change="onFileSelected3"
+                                :rules="imageRules"
+                                :validate-on-blur="true"
+
+                            ></v-file-input>
+                            <img :src="image3URl"  v-if="image3URl" width="50px" height="50px">
                           </v-col>
 
 
@@ -352,7 +394,6 @@
 
         </v-data-table>
 
-{{this.editedItem}}
         <div class="text-center mt-5">
           <v-pagination
               v-model="page"
@@ -379,7 +420,7 @@
 <script>
 import {mapGetters} from "vuex";
 import {mapActions} from "vuex/dist/vuex.mjs";
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   name: "MenuRestraunt",
@@ -389,7 +430,7 @@ export default {
       restrauntName : '',
 
 
-      menuTable : [],
+      menuRestraunTable : [],
       productsTable : [],
       valid : '',
       selected: [],
@@ -435,31 +476,34 @@ export default {
         productname: '',
         menuid: '',
       },
-      defaultItem: {
-        user : {
+      defaultItem : {
+        product : {
           id : '',
-          phone : ''
+          name : ''
         },
-        address: '',
-        adminName: '',
-        adminid: '',
-        phone: '',
-        name: '',
-        code: '',
-        id: '',
+        menumakeup: '',
+        menudiscount: '',
+        menuprice: '',
+        subgroupname: '',
+        maingroupname: '',
+        typename: '',
+        productid: '',
+        productname: '',
+        menuid: '',
       },
-
-      codeRules: [
+      discountRules: [
         v => !!v || 'کد الزامی است',
         v => !isNaN(v) || 'لطفا کد را به صورت عدد وارد نمایید'
       ],
-      nameRules: [v => !!v || 'نام الزامی است',],
-      addressRules: [ v => !!v || 'آدرس الزامی است',],
-      phoneRules: [
-        v => !!v || 'تلفن الزامی است',
+      productRules: [v => !!v || 'محصول الزامی است',],
+      makeupsRules: [ v => !!v || 'تخفیف الزامی است',],
+
+      imageRules: [ v => !!v || ' image الزامی است',],
+
+      priceRull : [
+          v => !!v || ' قیمت الزامی است',
+          v => !isNaN(v) || 'لطفا قیمت را به صورت عدد وارد نمایید'
       ],
-
-
 
       selectedFile : {
         photo1 : null ,
@@ -467,7 +511,11 @@ export default {
         photo3 : null
       },
 
+      image1URl : '',
+      image2URl : '',
+      image3URl : '',
 
+      autocompleteError : false
 
     }
   },
@@ -494,7 +542,7 @@ export default {
           .then(res => {
             console.log(res)
             this.setOverlayStatus(false)
-            this.menuTable = res
+            this.menuRestraunTable = res
           })
           .catch(err => {
             console.log(err)
@@ -536,7 +584,7 @@ export default {
       this.deleteMenuProduct(this.editedItem.menuid)
           .then(res => {
             console.log(res)
-            this.menuTable.splice(this.editedIndex, 1)
+            this.menuRestraunTable.splice(this.editedIndex, 1)
             this.setSnackbar({message : 'محصول با موفقیت حذف شد' , color : 'green'})
             this.setOverlayStatus(false)
             this.closeDelete()
@@ -560,31 +608,40 @@ export default {
     },
 
     editItem (item) {
+
+      this.selectedFile.photo1 = []
+      this.selectedFile.photo2 = []
+      this.selectedFile.photo3 = []
+
+
+
+
+
+      this.image1URl =  'https://www.kalament.ir/foodment/public/images/'+this.restrauntId+'/food/'+item.menuid+'/1.jpg'+'?'+ (new Date()).getTime();
+      this.image2URl =  'https://www.kalament.ir/foodment/public/images/'+this.restrauntId+'/food/'+item.menuid+'/2.jpg'+'?'+ (new Date()).getTime();
+      this.image3URl =  'https://www.kalament.ir/foodment/public/images/'+this.restrauntId+'/food/'+item.menuid+'/3.jpg'+'?'+ (new Date()).getTime();
+
+
+
+
+
       console.log(item)
-/*      console.log(item)
-      this.editedIndex = this.menuTable.indexOf(item)
+      this.editedIndex = this.menuRestraunTable.indexOf(item)
 
-      this.editedItem = {
-        user : {
-          id : item.adminid,
-          phone : item.adminName
-        },
-        address: item.address,
-        adminName: item.adminName,
-        adminid: item.adminid,
-        phone: item.phone,
-        name: item.name,
-        code: item.code,
-        id: item.id,
-      }
+      this.editedItem.menuid         =  item.menuid
+      this.editedItem.productid      =  item.productid
+      this.editedItem.productname    =  item.productname
+      this.editedItem.restrauntid    =  item.restrauntId
+      this.editedItem.menuprice      =  item.menuprice
+      this.editedItem.menudiscount   =  item.menudiscount
+      this.editedItem.menumakeup     =  item.menumakeup
 
-      //this.editedItem = Object.assign({}, item)
 
-      this.dialog = true*/
+      this.dialog = true
     },
 
     deleteItem (item) {
-      this.editedIndex = this.menuTable.indexOf(item)
+      this.editedIndex = this.menuRestraunTable.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
@@ -615,34 +672,58 @@ export default {
         if (this.editedIndex > -1)
         {
           // todo : badan change shavad
-          this.menuTable[this.editedIndex].id        = this.editedItem.id
-          this.menuTable[this.editedIndex].code      = this.editedItem.code
-          this.menuTable[this.editedIndex].name      = this.editedItem.name
-          this.menuTable[this.editedIndex].phone     = this.editedItem.phone
-          this.menuTable[this.editedIndex].address   = this.editedItem.address
-          this.menuTable[this.editedIndex].adminName = this.editedItem.user.phone
-          this.menuTable[this.editedIndex].adminid   = this.editedItem.user.id
+          this.menuRestraunTable[this.editedIndex].menuid         = this.editedItem.menuid
+          this.menuRestraunTable[this.editedIndex].menudiscount   = this.editedItem.menudiscount
+          this.menuRestraunTable[this.editedIndex].menumakeup     = this.editedItem.menumakeup
+          this.menuRestraunTable[this.editedIndex].menuprice      = this.editedItem.menuprice
+          this.menuRestraunTable[this.editedIndex].productid      = this.editedItem.productid
+          this.menuRestraunTable[this.editedIndex].productname    = this.editedItem.productname
+
 
           const fd = new FormData();
-          //fd.append('photo1' , this.selectedFile.photo1 , this.selectedFile.photo1.name)
-          //fd.append('photo2' , this.selectedFile.photo2 , this.selectedFile.photo2.name)
-          //fd.append('photo3' , this.selectedFile.photo3 , this.selectedFile.photo3.name)
 
-          fd.append('id' , this.editedItem.id)
-          fd.append('code' , this.editedItem.code)
-          fd.append('name' , this.editedItem.name)
-          fd.append('phone' , this.editedItem.phone)
-          fd.append('address' , this.editedItem.address)
-          fd.append('adminName' , this.editedItem.user.phone)
-          fd.append('adminid' , this.editedItem.user.id )
-          fd.append('srcphoto1' , '---------' )
-          fd.append('srcphoto2' , '---------' )
-          fd.append('srcphoto3' , '---------')
+          fd.append('id'          , this.editedItem.menuid)
+          fd.append('productid'   , this.editedItem.productid)
+          fd.append('restrauntid' , this.restrauntId)
+          fd.append('price'       , this.editedItem.menuprice)
+          fd.append('discount'    , this.editedItem.menudiscount)
+          fd.append('makeups'     , this.editedItem.menumakeup)
+
+
+
+
+          if (this.selectedFile.photo1 == 0)
+          {
+            fd.append('srcphoto1' , this.image1URl )
+          }
+          else{
+            fd.append('photo1' , this.selectedFile.photo1 , this.selectedFile.photo1.name)
+          }
+
+
+          if (this.selectedFile.photo2 == 0)
+          {
+            fd.append('srcphoto2' , '---------' )
+          }
+          else{
+            fd.append('photo2' , this.selectedFile.photo2 , this.selectedFile.photo2.name)
+          }
+
+          if (this.selectedFile.photo3 == 0)
+          {
+            fd.append('srcphoto3' , '---------')
+          }
+          else{
+            fd.append('photo3' , this.selectedFile.photo3 , this.selectedFile.photo3.name)
+          }
+
+
+
 
 
           this.setOverlayStatus(true)
 
-          axios.post('http://kalament.ir/api/v1/restraunt/editrestraunt' , fd , {
+          axios.post('http://kalament.ir/api/v1/menu/editmenuproduct' , fd , {
             headers: {
               'Access-Control-Allow-Origin': '*',
               'Content-type': 'application/json',
@@ -652,7 +733,10 @@ export default {
               .then(res => {
                 console.log(res)
                 this.close()
-                this.setSnackbar({message : 'گروه اصلی مورد نظر ویرایش شد' , color : 'green'}  )
+                this.setSnackbar({message : 'محصول منو مورد نظر ویرایش شد' , color : 'green'}  )
+                this.menuRestraunTable[this.editedIndex].typename       = res.data.data.typename
+                this.menuRestraunTable[this.editedIndex].maingroupname  = res.data.data.maingroupname
+                this.menuRestraunTable[this.editedIndex].subgroupname   = res.data.data.subgroupname
                 this.setOverlayStatus(false)
               })
               .catch(err => {
@@ -669,11 +753,26 @@ export default {
                   this.setOverlayStatus(false)
                   this.$router.push({name : 'Authenticate'})
                 }
-              })
+                this.setOverlayStatus(false)
 
+              })
         }
         else
         {
+
+
+          var NewItem = {
+            menuid           : this.editedItem.menuid        ,
+            menudiscount     : this.editedItem.menudiscount  ,
+            menumakeup       : this.editedItem.menumakeup    ,
+            menuprice        : this.editedItem.menuprice     ,
+            productid        : this.editedItem.productid     ,
+            productname      : this.editedItem.productname   ,
+            subgroupname     : this.editedItem.subgroupname  ,
+            typename         : this.editedItem.typename      ,
+            maingroupname    : this.editedItem.maingroupname ,
+          }
+
 
 
           const fd = new FormData();
@@ -684,8 +783,9 @@ export default {
           fd.append('productid' , this.editedItem.productid)
           fd.append('restrauntid' , this.restrauntId)
           fd.append('price' , this.editedItem.menuprice)
-          fd.append('discount' , this.editedItem.menudiscount )
-          fd.append('makeups' , this.editedItem.menumakeup )
+          fd.append('discount' , this.editedItem.menudiscount)
+          fd.append('makeups' , this.editedItem.menumakeup)
+
 
           this.setOverlayStatus(true)
 
@@ -697,29 +797,27 @@ export default {
             }
           })
               .then(res => {
+                console.log(res.data.data)
+                console.log(res.data.data[0].id)
 
-                console.log('***********')
-                console.log(res.data.data[0])
+                NewItem.menuid          =   res.data.data[0].id
+                NewItem.menudiscount    =   res.data.data[0].discount
+                NewItem.menumakeup      =   res.data.data[0].makeup
+                NewItem.menuprice       =   res.data.data[0].price
+                NewItem.productid       =   res.data.data[0].productid
+                NewItem.productname     =   res.data.data[0].productname
+                NewItem.subgroupname    =   res.data.data[0].subgroupname
+                NewItem.typename        =   res.data.data[0].typename
+                NewItem.maingroupname   =   res.data.data[0].maingroupname
+                //NewItem
 
-                this.editedItem.menudiscount   = res.data.data[0].discount
-                this.editedItem.menuid   = res.data.data[0].id
-                this.editedItem.menumakeup   = res.data.data[0].makeup
-                this.editedItem.menuprice   = res.data.data[0].price
-                this.editedItem.productid   = res.data.data[0].productid
-                this.editedItem.productname   = res.data.data[0].productname
-                this.editedItem.subgroupname   = res.data.data[0].subgroupname
-                this.editedItem.typename   = res.data.data[0].typename
-                this.editedItem.maingroupname   = res.data.data[0].maingroupname
-
-
-                this.menuTable.push(this.editedItem)
+                this.menuRestraunTable.push(NewItem)
                 this.close()
-                this.setSnackbar({message : 'گروه اصلی مورد نظر افزوده شد' , color : 'green'}  )
+                this.setSnackbar({message : 'محصول مورد نظر افزوده شد' , color : 'green'}  )
                 this.setOverlayStatus(false)
-
               })
               .catch(err => {
-                console.log(err.response.status)
+                console.log(err)
                 if(err.response.status == '422')
                 {
                   console.log(err.response.data.errors)
@@ -730,17 +828,12 @@ export default {
                 {
                   alert('شخص دیگری با اکانت شما وارد شده است')
                   this.setOverlayStatus(false)
+
                   this.$router.push({name : 'Authenticate'})
-
                 }
-                else if (err.response.status == '409')
-                {
-                  console.log(err.response.data.message)
-                  alert('محصول مورد نظر موجود میباشد')
-                  this.setOverlayStatus(false)
-
-                }
+                this.setOverlayStatus(false)
               })
+
 
         }
 
@@ -755,23 +848,54 @@ export default {
     },
 
     onFileSelected1(event) {
-      //console.log(event)
-      this.selectedFile.photo1 = event.target.files[0]
+      console.log(event)
+
+      this.selectedFile.photo1 = event
+
+      if (this.selectedFile.photo1){
+        const fileReader = new FileReader()
+        fileReader.addEventListener('load' , () => {
+          this.image1URl = fileReader.result
+        })
+        fileReader.readAsDataURL(event)
+      }
+      else
+        this.image1URl = null;
+
 
     },
 
     onFileSelected2(event) {
-      //console.log(event)
-      this.selectedFile.photo2 = event.target.files[0]
+      this.selectedFile.photo2 = event
+
+      if (this.selectedFile.photo2){
+        const fileReader = new FileReader()
+        fileReader.addEventListener('load' , () => {
+          this.image2URl = fileReader.result
+        })
+        fileReader.readAsDataURL(event)
+      }
+      else
+        this.image2URl = null;
     },
 
     onFileSelected3(event) {
-      //console.log(event)
-      this.selectedFile.photo3 = event.target.files[0]
+      this.selectedFile.photo3 = event
+
+      if (this.selectedFile.photo3){
+        const fileReader = new FileReader()
+        fileReader.addEventListener('load' , () => {
+          this.image3URl = fileReader.result
+        })
+        fileReader.readAsDataURL(event)
+      }
+      else
+        this.image3URl = null;
     },
 
     finalPrice(item){
-      return item.menuprice - ((item.menuprice * item.menudiscount)/100)
+      var discount = parseInt(item.menuprice) -  ( parseInt(item.menuprice) * parseInt(item.menudiscount) ) / 100
+      return  discount.toFixed(0).toString()
     }
 
 
