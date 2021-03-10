@@ -19,7 +19,7 @@ export default {
         retrivesubGroups : (context ) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.get('http://kalament.ir/api/v1/category/getsubgrouptable/1000' ,{
+                axios.get('http://kalament.ir/api/v1.0/category/getsubgrouptable/1000' ,{
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-type': 'application/json',
@@ -40,7 +40,7 @@ export default {
 
         deletesubGroup: ( context , subGroup ) => {
             return  new Promise((resolve , reject ) =>{
-                axios.post('https://www.kalament.ir/api/v1/category/deletesubgroup' ,{
+                axios.post('https://www.kalament.ir/api/v1.0/category/deletesubgroup' ,{
                     id    :   subGroup.id ,
                 },{
                     headers: {
@@ -62,7 +62,7 @@ export default {
         editsubGroup : (context , subGroup ) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.post('https://www.kalament.ir/api/v1/category/editsubgroup' ,{
+                axios.post('https://www.kalament.ir/api/v1.0/category/editsubgroup' ,{
                     id    :   subGroup.id ,
                     name  :   subGroup.name,
                     code  :   subGroup.code
@@ -88,7 +88,7 @@ export default {
         addsubGroup : (context , subGroup) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.post('https://www.kalament.ir/api/v1/category/addsubgroup' ,{
+                axios.post('https://www.kalament.ir/api/v1.0/category/addsubgroup' ,{
                     name  :   subGroup.name,
                     code  :   subGroup.code
                 },{

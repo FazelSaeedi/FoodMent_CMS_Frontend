@@ -28,7 +28,7 @@ export default {
         retriveToken :  (context , credentials) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.post('http://kalament.ir/api/v1/user/login' ,{
+                axios.post('http://kalament.ir/api/v1.0/user/login' ,{
                     phone: credentials.phone,
                     password: credentials.password
                 },{
@@ -64,7 +64,7 @@ export default {
         checkUserLogin : (context) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.post('http://kalament.ir/api/v1/user/getuserinfo' ,{},{
+                axios.post('http://kalament.ir/api/v1.0/user/getuserinfo' ,{},{
                         headers: {
                             'Access-Control-Allow-Origin': '*',
                             'Content-type': 'application/json',
@@ -96,7 +96,7 @@ export default {
 
 
             return new Promise((resolve , reject ) => {
-                axios.get('http://kalament.ir/api/v1/user/getusers' ,{
+                axios.get('http://kalament.ir/api/v1.0/user/getusers' ,{
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-type': 'application/json',

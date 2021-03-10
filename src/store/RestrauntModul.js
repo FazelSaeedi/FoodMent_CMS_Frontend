@@ -19,7 +19,7 @@ export default {
         retriveRestraunts : ( context ) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.get('http://kalament.ir/api/v1/restraunt/getrestraunttable/1000' ,{
+                axios.get('http://kalament.ir/api/v1.0/restraunt/getrestraunttable/1000' ,{
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-type': 'application/json',
@@ -42,7 +42,7 @@ export default {
         deleteRestraunt : (context , restrauntId) => {
 
             return  new Promise((resolve , reject ) =>{
-                axios.post('https://www.kalament.ir/api/v1/restraunt/deleterestraunt' ,{
+                axios.post('https://www.kalament.ir/api/v1.0/restraunt/deleterestraunt' ,{
                     id    :   restrauntId ,
                 },{
                     headers: {

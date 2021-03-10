@@ -19,7 +19,7 @@ export default {
         retriveTypes : (context ) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.get('http://kalament.ir/api/v1/category/gettypestable/1000' ,{
+                axios.get('http://kalament.ir/api/v1.0/category/gettypestable/1000' ,{
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-type': 'application/json',
@@ -40,7 +40,7 @@ export default {
 
         deleteType: ( context , type ) => {
             return  new Promise((resolve , reject ) =>{
-                axios.post('https://www.kalament.ir/api/v1/category/deletetype' ,{
+                axios.post('https://www.kalament.ir/api/v1.0/category/deletetype' ,{
                     id    :   type.id ,
                 },{
                     headers: {
@@ -62,7 +62,7 @@ export default {
         editType : (context , type ) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.post('https://www.kalament.ir/api/v1/category/edittype' ,{
+                axios.post('https://www.kalament.ir/api/v1.0/category/edittype' ,{
                     id    :   type.id ,
                     name  :   type.name,
                     code  :   type.code
@@ -88,7 +88,7 @@ export default {
         addType : (context , type) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.post('https://www.kalament.ir/api/v1/category/addtype' ,{
+                axios.post('https://www.kalament.ir/api/v1.0/category/addtype' ,{
                     name  :   type.name,
                     code  :   type.code
                 },{

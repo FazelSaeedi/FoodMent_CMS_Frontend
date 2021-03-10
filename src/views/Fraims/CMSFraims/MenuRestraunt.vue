@@ -723,7 +723,7 @@ export default {
 
           this.setOverlayStatus(true)
 
-          axios.post('http://kalament.ir/api/v1/menu/editmenuproduct' , fd , {
+          axios.post('http://kalament.ir/api/v1.0/menu/editmenuproduct' , fd , {
             headers: {
               'Access-Control-Allow-Origin': '*',
               'Content-type': 'application/json',
@@ -789,7 +789,7 @@ export default {
 
           this.setOverlayStatus(true)
 
-          axios.post('http://kalament.ir/api/v1/menu/addmenuproduct' , fd , {
+          axios.post('http://kalament.ir/api/v1.0/menu/addmenuproduct' , fd , {
             headers: {
               'Access-Control-Allow-Origin': '*',
               'Content-type': 'application/json',

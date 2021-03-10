@@ -20,7 +20,7 @@ export default {
         retriveMenuRestraunt : ( context , restrauntId) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.get('http://kalament.ir/api/v1/menu/getmenutable/'+restrauntId+'/1000' ,{
+                axios.get('http://kalament.ir/api/v1.0/menu/getmenutable/'+restrauntId+'/1000' ,{
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-type': 'application/json',
@@ -42,7 +42,7 @@ export default {
         deleteMenuProduct : (context , menuProductId) => {
 
             return  new Promise((resolve , reject ) =>{
-                axios.post('https://www.kalament.ir/api/v1/menu/deletemenuproduct' ,{
+                axios.post('https://www.kalament.ir/api/v1.0/menu/deletemenuproduct' ,{
                     id    :   menuProductId ,
                 },{
                     headers: {

@@ -19,7 +19,7 @@ export default {
         retriveProducts : ( context ) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.get('http://kalament.ir/api/v1/product/getproducttable/1000' ,{
+                axios.get('http://kalament.ir/api/v1.0/product/getproducttable/1000' ,{
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-type': 'application/json',
@@ -41,7 +41,7 @@ export default {
         addProduct : (context , product) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.post('http://kalament.ir/api/v1/product/addproduct' ,{
+                axios.post('http://kalament.ir/api/v1.0/product/addproduct' ,{
                     name      : product.productname,
                     type      : product.typeid,
                     maingroup : product.maingroupid,
@@ -71,7 +71,7 @@ export default {
             console.log(product)
             console.log('-------------------------------ss')
             return new Promise((resolve , reject ) =>{
-                axios.post('http://kalament.ir/api/v1/product/editproduct' ,{
+                axios.post('http://kalament.ir/api/v1.0/product/editproduct' ,{
                     id        : product.productid,
                     name      : product.productname,
                     type      : product.type.id,
@@ -100,7 +100,7 @@ export default {
         deleteProduct : (context , productId) => {
 
             return  new Promise((resolve , reject ) =>{
-                axios.post('https://www.kalament.ir/api/v1/product/deleteproduct' ,{
+                axios.post('https://www.kalament.ir/api/v1.0/product/deleteproduct' ,{
                     id    :   productId ,
                 },{
                     headers: {
