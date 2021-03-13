@@ -18,7 +18,6 @@
               :single-line="false"
               hide-details
               clearable
-              autofocus
               hint
               :loading="false"
               :reverse="true"
@@ -303,7 +302,7 @@
                               cols="12"
                               sm="12"
                               md="12"
-                              v-for="(error , key) in editErrors"
+                              v-for="(field , key) in editErrors"
                               :key="key"
 
                           >
@@ -311,10 +310,15 @@
                                 color="red "
                                 dark
                                 class="text-center reverse"
+                                v-for="(error , key2) in field"
+                                v-bind:key="key2"
                             >
-                              {{error[0]}}
+                              {{error}}
                             </v-alert>
                           </v-col>
+
+
+
 
                         </v-row>
                       </v-form>
@@ -442,7 +446,12 @@ export default {
       snackbar : false,
       deletederror : '',
       overlayZindex : '',
-      editErrors : [],
+      editErrors : [
+
+      ],
+
+
+
       dialog: false,
       dialogDelete: false,
       search: '',
@@ -740,8 +749,11 @@ export default {
                 this.setOverlayStatus(false)
               })
               .catch(err => {
+                console.log(err.response.data.errors)
+
+                this.editErrors = err.response.data.errors;
                 console.log(err)
-                if(err.response.status == '422')
+                if(err.response.status == '422' &&  err.response.status == '409')
                 {
                   console.log(err.response.data.errors)
                   this.editErrors = err.response.data.errors
@@ -817,9 +829,15 @@ export default {
                 this.setOverlayStatus(false)
               })
               .catch(err => {
-                console.log(err)
-                if(err.response.status == '422')
+
+                console.log(err.response.data.errors)
+
+                this.editErrors = err.response.data.errors;
+                this.setOverlayStatus(false)
+
+                if(err.response.status == '422' && err.response.status == '409')
                 {
+
                   console.log(err.response.data.errors)
                   this.editErrors = err.response.data.errors
                   this.setOverlayStatus(false)
