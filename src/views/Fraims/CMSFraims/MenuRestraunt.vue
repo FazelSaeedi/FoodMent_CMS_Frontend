@@ -500,12 +500,14 @@ export default {
         productname: '',
         menuid: '',
       },
+
       discountRules: [
-        v => !!v || 'کد الزامی است',
-        v => !isNaN(v) || 'لطفا کد را به صورت عدد وارد نمایید'
+        v => !isNaN(v) || 'لطفا تخفیف را به صورت عددی وارد نمایید' ,
+        v => v < 100  || 'لطفا تخفیف را به صورت صحیح وارد نمایید' ,
       ],
       productRules: [v => !!v || 'محصول الزامی است',],
-      makeupsRules: [ v => !!v || 'تخفیف الزامی است',],
+
+      makeupsRules: [ v => !!v || 'مواد تشکیل دهنده الزامی است',],
 
       imageRules: [ v => !!v || ' image الزامی است',],
 
@@ -743,6 +745,8 @@ export default {
                 console.log(res)
                 this.close()
                 this.setSnackbar({message : 'محصول منو مورد نظر ویرایش شد' , color : 'green'}  )
+                this.menuRestraunTable[this.editedIndex].productname    = res.data.data.productname
+                this.menuRestraunTable[this.editedIndex].productid      = res.data.data.id
                 this.menuRestraunTable[this.editedIndex].typename       = res.data.data.typename
                 this.menuRestraunTable[this.editedIndex].maingroupname  = res.data.data.maingroupname
                 this.menuRestraunTable[this.editedIndex].subgroupname   = res.data.data.subgroupname
