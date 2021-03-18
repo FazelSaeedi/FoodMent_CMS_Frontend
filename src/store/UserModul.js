@@ -35,6 +35,7 @@ export default {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-type': 'application/json',
+                        'User-Agent' : 'WEB'
                     },timeout : 4000
 
                 }).then(res => {
