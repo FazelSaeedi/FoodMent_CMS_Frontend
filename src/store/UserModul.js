@@ -35,7 +35,7 @@ export default {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-type': 'application/json',
-                        'User-Agent' : 'WEB'
+                        //'User-Agent' : 'WEB'
                     },timeout : 4000
 
                 }).then(res => {
@@ -65,7 +65,7 @@ export default {
         checkUserLogin : (context) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.post('http://kalament.ir/api/v1.0/user/getuserinfo' ,{},{
+                axios.get('http://kalament.ir/api/v1.0/user/getuserinfo' ,{
                         headers: {
                             'Access-Control-Allow-Origin': '*',
                             'Content-type': 'application/json',
