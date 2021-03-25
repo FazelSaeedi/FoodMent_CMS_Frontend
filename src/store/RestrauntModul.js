@@ -19,7 +19,7 @@ export default {
         retriveRestraunts : ( context ) => {
 
             return new Promise((resolve , reject ) =>{
-                axios.get('http://kalament.ir/api/v1.0/restraunt/getrestraunttable/1000' ,{
+                axios.get('https://kalament.ir/api/v1.0/restraunt/getrestraunttable/1000' ,{
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-type': 'application/json',
