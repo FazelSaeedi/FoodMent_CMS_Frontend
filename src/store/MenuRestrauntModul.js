@@ -27,9 +27,10 @@ export default {
                         'Authorization': `Bearer ${localStorage.getItem('jwt')}`
                     }
                 }).then(res => {
-                    console.log(res.data.data.data)
-                    resolve(res.data.data.data)
-                    context.commit('retriveMenuRestraunt' , res.data.data.data)
+                    console.log("GETTTTTTTTTTTTTTTTTTTTTTTT")
+                    console.log(res.data.data[0].data)
+                    resolve(res.data.data[0].data)
+                    context.commit('retriveMenuRestraunt' , res.data.data[0].data)
                 }).catch(err => {
                     console.log(err.Status)
                     reject(err)

@@ -31,7 +31,7 @@
                       :search="search"
                       :mobile-breakpoint="5"
                       :hide-default-footer="true"
-                      item-key="productid"
+                      item-key="menuid"
 
 
                       :page.sync="page"
