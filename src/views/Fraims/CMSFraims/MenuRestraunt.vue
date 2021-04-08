@@ -733,8 +733,10 @@ export default {
 
 
           this.setOverlayStatus(true)
+          console.log(this.editedItem.menuid)
+          console.log(fd)
 
-          axios.post('http://kalament.ir/api/v1.0/menu/editmenuproduct' , fd , {
+          axios.post('https://kalament.ir/api/v1.0/menu/editmenuproduct' , fd , {
             headers: {
               'Access-Control-Allow-Origin': '*',
               'Content-type': 'application/json',
@@ -805,7 +807,7 @@ export default {
 
           this.setOverlayStatus(true)
 
-          axios.post('http://kalament.ir/api/v1.0/menu/addmenuproduct' , fd , {
+          axios.post('https://kalament.ir/api/v1.0/menu/addmenuproduct' , fd , {
             headers: {
               'Access-Control-Allow-Origin': '*',
               'Content-type': 'application/json',
@@ -866,7 +868,7 @@ export default {
 
     rowExpend(productid , bannerNumber) {
 
-      return 'http://www.kalament.ir/foodment/public/images/'+this.restrauntId+'/food/'+productid+'/'+bannerNumber+'.jpg'+'?'+ (new Date()).getTime();
+      return 'https://www.kalament.ir/foodment/public/images/'+this.restrauntId+'/food/'+productid+'/'+bannerNumber+'.jpg'+'?'+ (new Date()).getTime();
     },
 
     onFileSelected1(event) {

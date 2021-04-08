@@ -736,7 +736,7 @@ export default {
 
           this.setOverlayStatus(true)
 
-          axios.post('http://kalament.ir/api/v1.0/restraunt/editrestraunt' , fd , {
+          axios.post('https://kalament.ir/api/v1.0/restraunt/editrestraunt' , fd , {
             headers: {
               'Access-Control-Allow-Origin': '*',
               'Content-type': 'application/json',
@@ -795,7 +795,7 @@ export default {
 
           this.setOverlayStatus(true)
 
-          axios.post('http://kalament.ir/api/v1.0/restraunt/addrestraunt' , fd , {
+          axios.post('https://kalament.ir/api/v1.0/restraunt/addrestraunt' , fd , {
             headers: {
               'Access-Control-Allow-Origin': '*',
               'Content-type': 'application/json',
