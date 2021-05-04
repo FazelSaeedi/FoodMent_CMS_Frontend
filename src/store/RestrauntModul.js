@@ -27,7 +27,7 @@ export default {
                     }
                 }).then(res => {
                     console.log(res.data.data.data)
-                    resolve(res.data.data.data)
+                    resolve(res.data.data[0].data)
                     context.commit('retriveRestraunts' , res.data.data.data)
                 }).catch(err => {
                     console.log(err.Status)
